@@ -1,45 +1,51 @@
-import { useState } from "react"
-import { useNavigate, Link } from "react-router"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { AlertCircle } from 'lucide-react'
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { NavigationMenu } from "@/components/NavigationMenu"
+import { useState } from "react";
+import { useNavigate, Link } from "react-router";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { NavigationMenu } from "@/components/NavigationMenu";
 
 export default function SignupPage() {
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [error, setError] = useState("")
-  const navigate = useNavigate()
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
 
     if (!username || !email || !password || !confirmPassword) {
-      setError("All fields are required.")
-      return
+      setError("All fields are required.");
+      return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.")
-      return
+      setError("Passwords do not match.");
+      return;
     }
 
     // Here you would typically make an API call to create the user
-    console.log("Signup attempt with:", { username, email, password })
+    console.log("Signup attempt with:", { username, email, password });
     // For demo purposes, we'll just log the attempt and clear the form
-    setUsername("")
-    setEmail("")
-    setPassword("")
-    setConfirmPassword("")
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
     // In a real app, you'd handle the response and redirect on success
     // router.push("/login")
-  }
+  };
 
   return (
     <>
@@ -47,7 +53,9 @@ export default function SignupPage() {
       <main className="w-full min-w-md flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">Sign Up</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">
+              Sign Up
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -109,7 +117,10 @@ export default function SignupPage() {
           <CardFooter className="justify-center">
             <p className="text-sm text-center">
               Already have an account?{" "}
-              <Link to={{ pathname: "/login" }} className="text-blue-500 hover:underline">
+              <Link
+                to={{ pathname: "/login" }}
+                className="text-blue-500 hover:underline"
+              >
                 Log in here
               </Link>
             </p>
@@ -117,6 +128,5 @@ export default function SignupPage() {
         </Card>
       </main>
     </>
-  )
+  );
 }
-

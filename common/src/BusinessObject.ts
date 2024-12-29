@@ -1,5 +1,5 @@
 export interface BusinessObject {
-    name: string;
-    subTitle: string;
-    price: number;
+  name: string;
+  subTitle: string;
+  price: number;
 }

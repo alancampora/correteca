@@ -1,24 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Link } from "react-router"
-import { Laptop, Menu, SquareChevronRight } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useState } from "react";
+import { Link } from "react-router";
+import { Laptop, Menu, SquareChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const navItems = [
-  { name: "Home", href: "/" },
-]
+const navItems = [{ name: "Home", href: "/" }];
 
 export function NavigationMenu() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   //const pathname = usePathname()
-  const pathname = "" 
+  const pathname = "";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b mb-4">
@@ -26,18 +20,19 @@ export function NavigationMenu() {
         <div className="mr-4 hidden md:flex">
           <Link to={"/"} className="mr-6 flex items-center space-x-2">
             <SquareChevronRight className="h-6 w-6" />
-            <span className="hidden font-bold sm:inline-block">
-              Codeteca
-            </span>
+            <span className="hidden font-bold sm:inline-block">Codeteca</span>
           </Link>
 
           <nav className="flex items-center space-x-6 text-sm font-medium">
             {navItems.map((item) => (
               <Link
                 key={item.href}
-                to={{pathname: item.href}}
-                className={`transition-colors hover:text-foreground/80 ${pathname === item.href ? "text-foreground" : "text-foreground/60"
-                  }`}
+                to={{ pathname: item.href }}
+                className={`transition-colors hover:text-foreground/80 ${
+                  pathname === item.href
+                    ? "text-foreground"
+                    : "text-foreground/60"
+                }`}
               >
                 {item.name}
               </Link>
@@ -69,8 +64,11 @@ export function NavigationMenu() {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`block px-2 py-1 text-lg ${pathname === item.href ? "text-foreground" : "text-foreground/60"
-                    }`}
+                  className={`block px-2 py-1 text-lg ${
+                    pathname === item.href
+                      ? "text-foreground"
+                      : "text-foreground/60"
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
@@ -92,6 +90,5 @@ export function NavigationMenu() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-

@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 
 type Props = {
   onLogin: () => void;
-}
+};
 
 export default function Landing({ onLogin }: Props) {
   return (
@@ -12,13 +12,13 @@ export default function Landing({ onLogin }: Props) {
           Bring your startup to life in days - move fast, make an impact!
         </h1>
         <p className="text-lg opacity-80 leading-relaxed">
-          Skip the boring setup—this code template lets you build anything you dream of, faster!
+          Skip the boring setup—this code template lets you build anything you
+          dream of, faster!
         </p>
         <Button className="text-sm lg:text-lg p-6" onClick={() => onLogin()}>
           Login
         </Button>
-
       </div>
     </section>
-  )
+  );
 }

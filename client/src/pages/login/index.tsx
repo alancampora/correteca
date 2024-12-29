@@ -1,43 +1,51 @@
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { NavigationMenu } from "@/components/NavigationMenu"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { AlertCircle } from 'lucide-react'
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { NavigationMenu } from "@/components/NavigationMenu";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Link } from "react-router";
 
 export default function Login() {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   //const router = useRouter()
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
 
     if (!username || !password) {
-      setError("Please enter both username and password.")
-      return
+      setError("Please enter both username and password.");
+      return;
     }
 
     // Here you would typically make an API call to authenticate the user
-    console.log("Login attempt with:", { username, password })
+    console.log("Login attempt with:", { username, password });
     // For demo purposes, we'll just log the attempt and clear the form
-    setUsername("")
-    setPassword("")
+    setUsername("");
+    setPassword("");
     // In a real app, you'd handle the response and redirect on success
     // router.push("/dashboard")
-  }
+  };
 
   return (
     <>
       <NavigationMenu />
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            Login
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -77,14 +85,15 @@ export default function Login() {
         <CardFooter className="justify-center">
           <p className="text-sm text-center">
             Don't have an account?{" "}
-            <Link to={{ pathname: "/signup" }} className="text-blue-500 hover:underline">
+            <Link
+              to={{ pathname: "/signup" }}
+              className="text-blue-500 hover:underline"
+            >
               Click here to create your user
             </Link>
           </p>
         </CardFooter>
       </Card>
     </>
-  )
+  );
 }
-
-

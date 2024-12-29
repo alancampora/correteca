@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { BusinessObject } from '@common/BusinessObject';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import Layout from '@/components/Layout';
-import { fetchBusinessObjects } from './api/BusinessObject';
-import Landing from './components/Landing';
+import { useEffect, useState } from "react";
+import { BusinessObject } from "@common/BusinessObject";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import Layout from "@/components/Layout";
+import { fetchBusinessObjects } from "./api/BusinessObject";
+import Landing from "./components/Landing";
 
 const BusinessObjectList = () => {
   const [businessObjects, setBusinessObjects] = useState<BusinessObject[]>([]);
@@ -30,11 +30,8 @@ const BusinessObjectList = () => {
     return <div className="text-gray-500">No BusinessObjects found.</div>;
   }
 
-  return (
-      <Landing />
-  );
+  return <Landing />;
 };
-
 
 /*{businessObjects.map((bo) => (
           <Card key={bo.name} className="p-4 shadow">
