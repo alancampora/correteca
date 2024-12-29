@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+      "outDir": "./dist",
+      "rootDir": "./src",
+    "paths": {
+      "@common/*": ["./*"]
+    }
+  },
+
+  "include": ["src/**/*"]
+}
