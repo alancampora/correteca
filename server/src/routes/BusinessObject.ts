@@ -7,7 +7,6 @@ const router = express.Router();
 router.get(
   "/",
   async (req: Request, res: Response<IBusinessObject[] | object>) => {
-    console.log("pasa por aca");
     try {
       const businessObjects = await BusinessObject.find();
       res.json(businessObjects);

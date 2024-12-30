@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import BusinessObject from "../models/BusinessObject";
-import User from "../models/User";
+import { User } from "../models/User";
 import dotenv from "dotenv";
 dotenv.config();
 

@@ -6,16 +6,18 @@ import { Laptop, Menu, SquareChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/context/auth";
 
 const navItems = [{ name: "Home", href: "/" }];
 
 export function NavigationMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, loading: isLoadingUser } = useAuth();
   //const pathname = usePathname()
   const pathname = "";
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b mb-4">
+    <header className="sticky top-0 z-50 w-full border-b mb-4 bg-stone-50">
       <div className="flex h-14 items-center p-4">
         <div className="mr-4 hidden md:flex">
           <Link to={"/"} className="mr-6 flex items-center space-x-2">
@@ -84,7 +86,7 @@ export function NavigationMenu() {
           <nav className="flex items-center">
             <Avatar>
               <AvatarImage src="/placeholder-avatar.jpg" alt="User" />
-              <AvatarFallback>U</AvatarFallback>
+              <AvatarFallback>{user?.username}</AvatarFallback>
             </Avatar>
           </nav>
         </div>

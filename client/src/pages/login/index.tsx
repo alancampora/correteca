@@ -12,30 +12,44 @@ import {
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   //const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (!username || !password) {
+    if (!email || !password) {
       setError("Please enter both username and password.");
       return;
     }
 
-    // Here you would typically make an API call to authenticate the user
-    console.log("Login attempt with:", { username, password });
-    // For demo purposes, we'll just log the attempt and clear the form
-    setUsername("");
-    setPassword("");
-    // In a real app, you'd handle the response and redirect on success
-    // router.push("/dashboard")
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // Include cookies
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful:", data);
+        navigate("/home"); // Redirect to the dashboard
+      } else {
+        const data = await response.json();
+        setError(data.message || "Failed to log in");
+      }
+    } catch (err) {
+      console.error("Error logging in:", err);
+      setError("An unexpected error occurred");
+    }
   };
 
   return (
@@ -48,15 +62,15 @@ export default function Login() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <Input
-                id="username"
+                id="email"
                 type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -77,7 +91,7 @@ export default function Login() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" onClick={handleLogin}>
               Login
             </Button>
           </form>

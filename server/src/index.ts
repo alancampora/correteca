@@ -2,7 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import businessObjectRoutes from "./routes/BusinessObject";
+import authRoutes from "./routes/Auth";
+import loginRoutes from "./routes/Login";
 
 dotenv.config();
 
@@ -11,11 +14,18 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
-app.use(businessObjectRoutes);
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow your frontend origin
+    credentials: true, // Allow cookies and credentials
+  }),
+);
+app.use(cookieParser());
 
 // Routes
 app.use("/api/business-objects", businessObjectRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/auth", loginRoutes);
 
 app.listen(PORT, () => {
   mongoose

@@ -47,6 +47,28 @@ export default function SignupPage() {
     // router.push("/login")
   };
 
+  const handleSingUp = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, username, password }),
+      });
+
+      if (response.ok) {
+        alert("Registration successful");
+        navigate("/login");
+      } else {
+        const data = await response.json();
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error registering:", error);
+    }
+  };
+
   return (
     <>
       <NavigationMenu />
@@ -109,7 +131,7 @@ export default function SignupPage() {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" onClick={handleSingUp}>
                 Sign Up
               </Button>
             </form>

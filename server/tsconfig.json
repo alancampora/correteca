@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "target": "ES2015", // Or ES2020, ESNext for modern features
+    "module": "CommonJS", // Or "ESNext" if you prefer ES modules
+    "lib": ["ES2015"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,

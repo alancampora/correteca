@@ -4,10 +4,16 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home/index.tsx";
 import Login from "./pages/login/index.tsx";
 import Singup from "./pages/singup/index.tsx";
+import { AuthProvider } from "./context/auth.tsx";
+import Landing from "./pages/landing/index.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Landing />,
+  },
+  {
+    path: "/home",
     element: <Home />,
   },
   {
@@ -21,5 +27,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />,
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>,
 );
