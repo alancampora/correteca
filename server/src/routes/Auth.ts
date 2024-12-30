@@ -10,14 +10,14 @@ router.post("/register", async (req: any, res: any) => {
   const { email, password, username } = req.body;
 
   if (!email || !password || !username) {
-    return res.status(400).json({ message: "All fields are required" });
+    res.status(400).json({ message: "All fields are required" });
   }
 
   try {
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ message: "Email already in use" });
+      res.status(409).json({ message: "Email already in use" });
     }
 
     // Hash the password
@@ -35,9 +35,9 @@ router.post("/register", async (req: any, res: any) => {
   }
 });
 
-router.get("/me", authenticateToken, (req: any, res) => {
+router.get("/me", authenticateToken, (req: any, res: any) => {
   const user = req.user; // `user` is attached by the `authenticateToken` middleware
-  res.json({ user });
+  return res.json({ user });
 });
 
 export default router;

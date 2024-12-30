@@ -26,7 +26,7 @@ router.post("/login", async (req: Request, res: any) => {
     const token = generateToken(user._id.toString());
 
     // Send HTTP-only cookie
-    res
+    return res
       .cookie("auth_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // Use secure cookies in production
@@ -35,7 +35,9 @@ router.post("/login", async (req: Request, res: any) => {
       })
       .json({ message: "Login successful", user });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
   }
 });
 
@@ -60,7 +62,7 @@ router.post("/google-login", async (req: Request, res: any) => {
     const token = generateToken(user._id.toString());
 
     // Send HTTP-only cookie
-    res
+    return res
       .cookie("auth_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -69,10 +71,20 @@ router.post("/google-login", async (req: Request, res: any) => {
       })
       .json({ message: "Login successful", user });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ message: "Authentication failed", error: error.message });
   }
+});
+
+router.post("/logout", (req, res: any) => {
+  return res
+    .clearCookie("auth_token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    })
+    .json({ message: "Logged out successfully" });
 });
 
 export default router;

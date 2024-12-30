@@ -4,13 +4,13 @@ import { User } from "../models/User";
 
 export const authenticateToken = async (
   req: any,
-  res: Response,
+  res: any,
   next: NextFunction,
 ): Promise<void> => {
   const token = req.cookies.auth_token;
 
   if (!token) {
-    res.status(401).json({ message: "Authentication token is missing" });
+    return res.status(401).json({ message: "Authentication token is missing" });
   }
 
   try {
@@ -20,13 +20,13 @@ export const authenticateToken = async (
     const user = await User.findById(decoded.id);
 
     if (!user) {
-      res.status(401).json({ message: "Invalid authentication token" });
+      return res.status(401).json({ message: "Invalid authentication token" });
     }
 
     // Attach user to the request object for later use
     (req as any).user = { username: user.username, email: user.email };
     next();
   } catch (error) {
-    res.status(403).json({ message: "Invalid or expired token" });
+    return res.status(403).json({ message: "Invalid or expired token" });
   }
 };
