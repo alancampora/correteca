@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { User } from "../models/User";
 import { verifyGoogleToken } from "../utils/verifyGoogleToken";
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -43,10 +44,11 @@ router.post("/login", async (req: Request, res: any) => {
 
 // Google Login
 router.post("/google-login", async (req: Request, res: any) => {
-  const { idToken } = req.body;
+  const { credential: idToken } = req.body;
 
   try {
     const payload = await verifyGoogleToken(idToken);
+
     if (!payload) {
       return res.status(401).json({ message: "Invalid Google token" });
     }
@@ -54,13 +56,15 @@ router.post("/google-login", async (req: Request, res: any) => {
     const { sub: googleId, email, name: username } = payload;
 
     let user = await User.findOne({ googleId });
+
     if (!user) {
       user = new User({ googleId, email, username });
       await user.save();
     }
 
+    console.log('va a generar el token para', {user});
     const token = generateToken(user._id.toString());
-
+    console.log('genera el token', {token});
     // Send HTTP-only cookie
     return res
       .cookie("auth_token", token, {

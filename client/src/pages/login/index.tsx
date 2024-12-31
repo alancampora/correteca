@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,6 +21,36 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   //const router = useRouter()
+
+  const handleSuccess = (navigate: any) => async (credentials: CredentialResponse) => {
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/auth/google-login`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Include cookies
+        body: JSON.stringify(credentials),
+      });
+      console.log({response})
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful:", data);
+        navigate("/home"); // Redirect to the dashboard
+      } else {
+        const data = await response.json();
+        setError(data.message || "Failed to log in");
+      }
+    } catch (err) {
+      console.error("Error logging in:", err);
+      setError("An unexpected error occurred");
+    }
+
+  };
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,61 +84,69 @@ export default function Login() {
   };
 
   return (
-    <>
-      <NavigationMenu />
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Login
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input
-                id="email"
-                type="text"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            {error && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-            <Button type="submit" className="w-full" onClick={handleLogin}>
+    <main className="flex flex-col sm:flex-row space-x-10 bg-gray-100">
+      <div className="p-4 grow">
+        <Card className="w-full max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
               Login
-            </Button>
-          </form>
-        </CardContent>
-        <CardFooter className="justify-center">
-          <p className="text-sm text-center">
-            Don't have an account?{" "}
-            <Link
-              to={{ pathname: "/signup" }}
-              className="text-blue-500 hover:underline"
-            >
-              Click here to create your user
-            </Link>
-          </p>
-        </CardFooter>
-      </Card>
-    </>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="email"
+                  type="text"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+              <Button type="submit" className="w-full" onClick={handleLogin}>
+                Login
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter className="justify-center">
+            <p className="text-sm text-center">
+              Don't have an account?{" "}
+              <Link
+                to={{ pathname: "/signup" }}
+                className="text-blue-500 hover:underline"
+              >
+                Click here to create your user
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
+
+      <div className="bg-black grow">
+        <GoogleLogin
+          useOneTap
+          onSuccess={handleSuccess(navigate)}
+        />
+      </div>
+    </main >
   );
 }

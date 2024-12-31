@@ -9,6 +9,9 @@
     "build": "npm run build:common && npm run build:server && npm run build:client",
     "start:server": "cd server && npm start",
     "start:client": "cd client && npm run preview",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "dev:start": "run-s build:common && run-p dev:server dev:client",
     "format": "prettier --write ."
   },
   "keywords": [],
@@ -19,6 +22,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
     "eslint": "^9.17.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2"
   },
