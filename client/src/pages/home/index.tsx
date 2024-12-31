@@ -3,7 +3,7 @@ import useAuth from "@/lib/auth";
 
 type Props = {};
 
-export default function Home({ }: Props) {
+export default function Home({}: Props) {
   const { user, loading } = useAuth();
 
   return (

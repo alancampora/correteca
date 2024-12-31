@@ -62,9 +62,9 @@ router.post("/google-login", async (req: Request, res: any) => {
       await user.save();
     }
 
-    console.log('va a generar el token para', {user});
+    console.log("va a generar el token para", { user });
     const token = generateToken(user._id.toString());
-    console.log('genera el token', {token});
+    console.log("genera el token", { token });
     // Send HTTP-only cookie
     return res
       .cookie("auth_token", token, {

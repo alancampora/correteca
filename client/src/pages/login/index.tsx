@@ -3,7 +3,6 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { NavigationMenu } from "@/components/NavigationMenu";
 import {
   Card,
   CardContent,
@@ -14,43 +13,23 @@ import {
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Link, useNavigate } from "react-router";
+import { fetchAuth } from "@/api/auth";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  //const router = useRouter()
 
-  const handleSuccess = (navigate: any) => async (credentials: CredentialResponse) => {
-
-    try {
-      const response = await fetch(`http://localhost:3000/api/auth/google-login`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Include cookies
-        body: JSON.stringify(credentials),
+  const handleSuccessGoogle =
+    (navigate: any) => async (credentials: CredentialResponse) => {
+      await fetchAuth({
+        data: credentials,
+        endpoint: "auth/google-login",
+        successCallback: () => navigate("/home"),
+        errorCallback: (err: string) => setError(err),
       });
-      console.log({response})
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Login successful:", data);
-        navigate("/home"); // Redirect to the dashboard
-      } else {
-        const data = await response.json();
-        setError(data.message || "Failed to log in");
-      }
-    } catch (err) {
-      console.error("Error logging in:", err);
-      setError("An unexpected error occurred");
-    }
-
-  };
-
+    };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,26 +40,12 @@ export default function Login() {
       return;
     }
 
-    try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // Include cookies
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Login successful:", data);
-        navigate("/home"); // Redirect to the dashboard
-      } else {
-        const data = await response.json();
-        setError(data.message || "Failed to log in");
-      }
-    } catch (err) {
-      console.error("Error logging in:", err);
-      setError("An unexpected error occurred");
-    }
+    await fetchAuth({
+      data: { email, password },
+      endpoint: "auth/login",
+      successCallback: () => navigate("/home"),
+      errorCallback: (err: string) => setError(err),
+    });
   };
 
   return (
@@ -141,12 +106,20 @@ export default function Login() {
         </Card>
       </div>
 
-      <div className="bg-black grow">
-        <GoogleLogin
-          useOneTap
-          onSuccess={handleSuccess(navigate)}
-        />
+      <div className="bg-gray-200 grow p-4">
+        <Card className="w-full max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
+              Or Login with Google
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col items-center">
+              <GoogleLogin onSuccess={handleSuccessGoogle(navigate)} />
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </main >
+    </main>
   );
 }
