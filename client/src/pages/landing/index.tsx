@@ -1,4 +1,4 @@
-import Landing from "@/components/Landing";
+import Landing from "@/components/landing";
 import useAuth from "@/lib/auth";
 import { useNavigate } from "react-router-dom";
 import Home from "../home";

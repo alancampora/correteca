@@ -6,22 +6,25 @@ import {
   Bell,
   LogOut,
 } from "lucide-react"; // Icons
+import HomeIcon from "./icons/home";
 import { Link, useNavigate } from "react-router";
 import { Skeleton } from "./ui/skeleton";
+import ProfileIcon from "./icons/profile";
+import ShutDownIcon from "./icons/shut-down";
 
 const navItems = [
   {
-    icon: Home,
+    icon: HomeIcon,
     label: "Home",
     link: "/home",
   },
   {
-    icon: User,
+    icon: ProfileIcon,
     label: "Profile",
     link: "/profile",
   },
   {
-    icon: LogOut,
+    icon: ShutDownIcon,
     label: "Logout",
     link: "",
     onClick: async (navigate) => {
@@ -55,7 +58,7 @@ const VerticalNavbar = ({ isLoading }: VerticalNavbarProps) => {
               className="w-full justify-center p-2 flex flex-row items-center space-x-2 transition-colors duration-200 bg-white hover:bg-gray-50 hover:text-black mb-4"
               onClick={() => item.onClick && item?.onClick(navigate)}
             >
-              <item.icon className="w-6 h-6" />
+              <item.icon className="w-8 h-8" />
               <span className="hidden sm:inline text-lg">{item.label}</span>
             </button>
           </Link>

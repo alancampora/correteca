@@ -1,19 +1,28 @@
-import VerticalNavbar from "@/components/VerticalNavbar";
+import RocketIcon from "@/components/icons/rocket";
+import VerticalNavbar from "@/components/verticalNavbar";
 import useAuth from "@/lib/auth";
 
 type Props = {};
 
-export default function Home({}: Props) {
+export default function Home({ }: Props) {
   const { user, loading } = useAuth();
 
   return (
-    <div className="flex flex-row space-x-4">
+    <div className="flex flex-row h-dvh">
       <VerticalNavbar isLoading={loading} />
 
       {user && (
-        <main className="w-full p-4">
-          <p className="text-2xl font-bold">🚀 Welcome {user.username}</p>
-          <p className="text-lg">Start Adding your Businnes Object from here</p>
+        <main className="w-full">
+          <header className="bg-indigo-600 text-white">
+            <div className="flex flex-row items-center space-x-2 p-2">
+              <RocketIcon />
+              <p className="text-2xl font-bold">Welcome {user.username}</p>
+            </div>
+            <p className="text-lg px-2">Start Adding your Businnes Object from here</p>
+          </header>
+
+          <section className="w-full">
+          </section>
         </main>
       )}
     </div>

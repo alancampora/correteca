@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { IUser } from "@common/User";
+import { fetchMe } from "@/api/auth";
 
 const useAuth = () => {
   const [user, setUser] = useState<IUser | null>(null);
@@ -7,23 +8,16 @@ const useAuth = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/auth/me", {
-          credentials: "include", // Important to include cookies
-        });
-
-        if (response.ok) {
-          const data = await response.json();
+      await fetchMe({
+        successCallback: (data: { user: IUser }) => {
           setUser(data.user);
-        } else {
+          setLoading(false);
+        },
+        errorCallback: () => {
           setUser(null);
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
+          setLoading(false);
+        },
+      });
     };
 
     fetchUser();
