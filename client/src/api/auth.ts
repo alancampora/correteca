@@ -4,6 +4,7 @@ type FetchAuthProps = {
   successCallback: Function;
   errorCallback: Function;
 };
+
 export const fetchAuth = async ({
   data,
   endpoint,

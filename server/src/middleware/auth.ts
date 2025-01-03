@@ -24,7 +24,12 @@ export const authenticateToken = async (
     }
 
     // Attach user to the request object for later use
-    (req as any).user = { username: user.username, email: user.email };
+    (req as any).user = {
+      username: user.username,
+      email: user.email,
+      id: user._id,
+      description: user?.description,
+    };
     next();
   } catch (error) {
     return res.status(403).json({ message: "Invalid or expired token" });

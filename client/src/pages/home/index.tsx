@@ -4,7 +4,7 @@ import useAuth from "@/lib/auth";
 
 type Props = {};
 
-export default function Home({ }: Props) {
+export default function Home({}: Props) {
   const { user, loading } = useAuth();
 
   return (
@@ -13,16 +13,17 @@ export default function Home({ }: Props) {
 
       {user && (
         <main className="w-full">
-          <header className="bg-indigo-600 text-white">
+          <header className="">
             <div className="flex flex-row items-center space-x-2 p-2">
               <RocketIcon />
               <p className="text-2xl font-bold">Welcome {user.username}</p>
             </div>
-            <p className="text-lg px-2">Start Adding your Businnes Object from here</p>
+            <p className="text-lg px-2">
+              Start Adding your Businnes Object from here
+            </p>
           </header>
 
-          <section className="w-full">
-          </section>
+          <section className="w-full"></section>
         </main>
       )}
     </div>

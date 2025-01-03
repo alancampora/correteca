@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import businessObjectRoutes from "./routes/BusinessObject";
 import authRoutes from "./routes/Auth";
 import loginRoutes from "./routes/Login";
+import userRoutes from "./routes/User";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use("/api/business-objects", businessObjectRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/auth", loginRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   mongoose

@@ -7,6 +7,7 @@ import Login from "./pages/login/index.tsx";
 import Singup from "./pages/singup/index.tsx";
 import { AuthProvider } from "./context/auth.tsx";
 import Landing from "./pages/landing/index.tsx";
+import Profile from "./pages/profile/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,11 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home />,
   },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+
   {
     path: "/login",
     element: <Login />,
