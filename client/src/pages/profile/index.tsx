@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button"; // Adjust path
 import { useAuth } from "@/context/auth";
 import UserLayout from "@/components/user-layout";
@@ -10,22 +10,23 @@ import { updateProfile } from "@/api/profile";
 
 const ProfilePage: React.FC = () => {
   const { user } = useAuth();
-
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     username: user?.username || "",
     email: user?.email || "",
     description: user?.description || "",
   });
 
-  const [saving, setSaving] = useState(false);
+  useEffect(() => {
+    setFormData({ ...user });
+  }, [user]);
+
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    console.log(value);
     setFormData({ ...formData, [name]: value });
-    console.log({ formData });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,7 +46,7 @@ const ProfilePage: React.FC = () => {
     });
   };
 
-    return (
+  return (
     <UserLayout title="Edit your user profile settings">
       <Card className="max-w-xl mx-auto p-4">
         <form onSubmit={handleSubmit} className="space-y-6">
