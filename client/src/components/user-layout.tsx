@@ -1,5 +1,5 @@
 import { useAuth } from "@/context/auth";
-import VerticalNavbar from "./verticalNavbar";
+import VerticalNavbar from "./vertical-navbar";
 import RocketIcon from "./icons/rocket";
 
 type Props = {

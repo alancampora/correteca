@@ -42,6 +42,7 @@ type MeProps = {
   successCallback: Function;
   errorCallback: Function;
 };
+
 export const fetchMe = async ({
   successCallback,
   errorCallback,
@@ -61,5 +62,22 @@ export const fetchMe = async ({
   } catch (error) {
     console.error("Error fetching user:", error);
     errorCallback();
+  }
+};
+
+export const fetchLogout = async ({
+  finallyCallback,
+}: {
+  finallyCallback: Function;
+}) => {
+  try {
+    await fetch(`${import.meta.env.VITE_API_URL}/login/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+  } catch (err) {
+    console.error("Error logging out:", err);
+  } finally {
+    finallyCallback();
   }
 };

@@ -25,7 +25,7 @@ export default function Login() {
     (navigate: any) => async (credentials: CredentialResponse) => {
       await fetchAuth({
         data: credentials,
-        endpoint: "auth/google-login",
+        endpoint: "login/google",
         successCallback: () => navigate("/home"),
         errorCallback: (err: string) => setError(err),
       });
@@ -42,7 +42,7 @@ export default function Login() {
 
     await fetchAuth({
       data: { email, password },
-      endpoint: "auth/login",
+      endpoint: "login/common",
       successCallback: () => navigate("/home"),
       errorCallback: (err: string) => setError(err),
     });

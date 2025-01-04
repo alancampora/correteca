@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router";
 import { Skeleton } from "./ui/skeleton";
 import ProfileIcon from "./icons/profile";
 import ShutDownIcon from "./icons/shut-down";
+import { useAuth } from "@/context/auth";
 
 const navItems = [
   {
@@ -22,17 +23,20 @@ const navItems = [
     icon: ProfileIcon,
     label: "Profile",
     link: "/profile",
+    onClick: null,
   },
   {
     icon: ShutDownIcon,
     label: "Logout",
     link: "",
-    onClick: async (navigate) => {
-      await fetch("http://localhost:3000/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
+    onClick: async (auth: any, navigate: any) => {
+      console.log("hace click");
+      await auth.logout({
+        finallyCallback: () => {
+          console.log("se va a ir");
+          navigate("/");
+        },
       });
-      navigate("/");
     },
   },
 ];
@@ -41,6 +45,7 @@ type VerticalNavbarProps = { isLoading: boolean };
 
 const VerticalNavbar = ({ isLoading }: VerticalNavbarProps) => {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   return (
     <div className="w-20 sm:w-48 p-2 bg-white border-r">
@@ -56,7 +61,7 @@ const VerticalNavbar = ({ isLoading }: VerticalNavbarProps) => {
           <Link to={item?.link}>
             <button
               className="w-full justify-center p-2 flex flex-row items-center space-x-2 transition-colors duration-200 bg-white hover:bg-gray-50 hover:text-black mb-4"
-              onClick={() => item.onClick && item?.onClick(navigate)}
+              onClick={() => item.onClick && item?.onClick(auth, navigate)}
             >
               <item.icon className="w-8 h-8" />
               <span className="hidden sm:inline text-lg">{item.label}</span>

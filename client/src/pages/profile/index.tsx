@@ -9,7 +9,7 @@ import TextareaField from "@/components/form/text-area-field";
 import { updateProfile } from "@/api/profile";
 
 const ProfilePage: React.FC = () => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     username: user?.username || "",
@@ -45,15 +45,7 @@ const ProfilePage: React.FC = () => {
     });
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!user) {
-    return <p>You need to log in to access this page.</p>;
-  }
-
-  return (
+    return (
     <UserLayout title="Edit your user profile settings">
       <Card className="max-w-xl mx-auto p-4">
         <form onSubmit={handleSubmit} className="space-y-6">

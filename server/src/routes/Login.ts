@@ -14,7 +14,7 @@ const generateToken = (userId: string) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "7d" });
 };
 
-router.post("/login", async (req: Request, res: any) => {
+router.post("/common", async (req: Request, res: any) => {
   const { email, password } = req.body;
 
   try {
@@ -43,7 +43,7 @@ router.post("/login", async (req: Request, res: any) => {
 });
 
 // Google Login
-router.post("/google-login", async (req: Request, res: any) => {
+router.post("/google", async (req: Request, res: any) => {
   const { credential: idToken } = req.body;
 
   try {
@@ -62,10 +62,8 @@ router.post("/google-login", async (req: Request, res: any) => {
       await user.save();
     }
 
-    console.log("va a generar el token para", { user });
     const token = generateToken(user._id.toString());
-    console.log("genera el token", { token });
-    // Send HTTP-only cookie
+
     return res
       .cookie("auth_token", token, {
         httpOnly: true,

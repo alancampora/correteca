@@ -11,27 +11,31 @@ import userRoutes from "./routes/User";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 
-// Middleware
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow your frontend origin
+    origin: process.env.FE_URI, // Allow your frontend origin
     credentials: true, // Allow cookies and credentials
   }),
 );
-app.use(cookieParser());
 
 // Routes
-app.use("/api/business-objects", businessObjectRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/auth", loginRoutes);
-app.use("/api/users", userRoutes);
+app.use("/business-objects", businessObjectRoutes);
+app.use("/auth", authRoutes);
+app.use("/login", loginRoutes);
+app.use("/users", userRoutes);
 
 app.listen(PORT, () => {
+  const connectionString =
+    process.env.ENV === "dev"
+      ? `${process.env.DB_URI}/${process.env.DB_NAME}`
+      : `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}/${process.env.DB_NAME}`;
+
   mongoose
-    .connect(process.env.MONGO_URI || "mongodb://localhost:27017/codeteca", {})
+    .connect(connectionString, {})
     .then(() => console.log("MongoDB connected"))
     .catch((error) => console.error("MongoDB connection error:", error));
 

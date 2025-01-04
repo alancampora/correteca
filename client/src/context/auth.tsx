@@ -1,9 +1,13 @@
+import { fetchLogout, fetchMe } from "@/api/auth";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
+type LogoutParams = {
+  finallyCallback: Function
+}
 interface AuthContextType {
   user: any; // Replace `any` with your user type
   loading: boolean;
-  logout: () => void;
+  logout: (params: LogoutParams) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -14,35 +18,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/auth/me", {
-          credentials: "include", // Send cookies
-        });
-
-        if (response.ok) {
-          const data = await response.json();
+      await fetchMe({
+        successCallback: (data:any) => {
           setUser(data.user);
-        } else {
+          setLoading(false);
+        },
+        errorCallback: () => {
           setUser(null);
-        }
-      } catch (err) {
-        console.error("Error fetching user:", err);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
+          setLoading(false);
+        },
+      });
     };
 
     fetchUser();
   }, []);
 
-  const logout = async () => {
-    await fetch("http://localhost:3000/api/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-    setUser(null);
-  };
+  const logout = (params: LogoutParams) =>
+    fetchLogout({ ...params });
 
   return (
     <AuthContext.Provider value={{ user, loading, logout }}>
