@@ -1,10 +1,10 @@
 import RocketIcon from "@/components/icons/rocket";
 import VerticalNavbar from "@/components/vertical-navbar";
-import useAuth from "@/lib/auth";
+import { useAuth } from "@/context/auth";
 
 type Props = {};
 
-export default function Home({}: Props) {
+export default function Home({ }: Props) {
   const { user, loading } = useAuth();
 
   return (
@@ -18,7 +18,7 @@ export default function Home({}: Props) {
               <RocketIcon />
               <p className="text-2xl font-bold">Welcome {user.username}</p>
             </div>
-           <p className="text-lg px-2">
+            <p className="text-lg px-2">
               Start Adding your Businnes Object from here
             </p>
           </header>

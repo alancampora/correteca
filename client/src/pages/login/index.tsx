@@ -14,19 +14,25 @@ import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Link, useNavigate } from "react-router";
 import { fetchAuth } from "@/api/auth";
+import { IUser } from "@common/User";
+import { useAuth } from "@/context/auth";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { refetchUser } = useAuth();
 
   const handleSuccessGoogle =
     (navigate: any) => async (credentials: CredentialResponse) => {
       await fetchAuth({
         data: credentials,
         endpoint: "login/google",
-        successCallback: () => navigate("/home"),
+        successCallback: async () => {
+          const test = await refetchUser();
+          navigate("/home");
+        },
         errorCallback: (err: string) => setError(err),
       });
     };
@@ -43,7 +49,10 @@ export default function Login() {
     await fetchAuth({
       data: { email, password },
       endpoint: "login/common",
-      successCallback: () => navigate("/home"),
+      successCallback: async () => {
+        await refetchUser();
+        navigate("/home");
+      },
       errorCallback: (err: string) => setError(err),
     });
   };

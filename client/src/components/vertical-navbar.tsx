@@ -30,10 +30,8 @@ const navItems = [
     label: "Logout",
     link: "",
     onClick: async (auth: any, navigate: any) => {
-      console.log("hace click");
       await auth.logout({
         finallyCallback: () => {
-          console.log("se va a ir");
           navigate("/");
         },
       });

@@ -1,4 +1,5 @@
 import { fetchLogout, fetchMe } from "@/api/auth";
+import { IUser as User } from "@common/User";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 type LogoutParams = {
@@ -6,6 +7,7 @@ type LogoutParams = {
 }
 interface AuthContextType {
   user: any; // Replace `any` with your user type
+  refetchUser: () =>Promise<void>;
   loading: boolean;
   logout: (params: LogoutParams) => void;
 }
@@ -16,28 +18,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      await fetchMe({
-        successCallback: (data:any) => {
-          setUser(data.user);
-          setLoading(false);
-        },
-        errorCallback: () => {
-          setUser(null);
-          setLoading(false);
-        },
-      });
-    };
+  const fetchUser = async () => {
+    await fetchMe({
+      successCallback: (data: any) => {
+        setUser(data.user);
+        setLoading(false);
+      },
+      errorCallback: () => {
+        setUser(null);
+        setLoading(false);
+      },
+    });
+  };
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
-  const logout = (params: LogoutParams) =>
+  const logout = (params: LogoutParams) => {
+    setUser(null);
     fetchLogout({ ...params });
+  }
+
+  const refetchUser = async () => {
+    await fetchUser();
+  }
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout }}>
+    <AuthContext.Provider value={{ user, refetchUser, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );
