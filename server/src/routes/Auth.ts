@@ -1,12 +1,14 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import { User } from "../models/User";
+import { Request, Response } from "express";
+import { IUser } from "@common/User";
+import { Error } from "@common/Error";
 import { authenticateToken } from "../middleware/auth";
-
+import { User } from "../models/User";
 const router = express.Router();
 
-// Manual Registration
-router.post("/register", async (req: any, res: any) => {
+
+router.post("/register", async (req: Request, res: Response<Error | IUser>) => {
   const { email, password, username } = req.body;
 
   if (!email || !password || !username) {
@@ -36,7 +38,7 @@ router.post("/register", async (req: any, res: any) => {
 });
 
 router.get("/me", authenticateToken, (req: any, res: any) => {
-  const user = req.user; // `user` is attached by the `authenticateToken` middleware
+  const user = req.user as IUser;
   return res.json({ user });
 });
 

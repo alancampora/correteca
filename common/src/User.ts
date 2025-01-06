@@ -1,6 +1,7 @@
-export interface IUser {
+export type IUser = {
   email: string;
-  password?: string; // Optional for Google users
+  password?: string;
   username: string;
-  googleId?: string; // Optional for manual users
+  googleId?: string;
 }
+
