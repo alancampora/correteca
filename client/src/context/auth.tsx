@@ -3,11 +3,11 @@ import { IUser as User } from "@common/User";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 type LogoutParams = {
-  finallyCallback: Function
-}
+  finallyCallback: Function;
+};
 interface AuthContextType {
   user: any; // Replace `any` with your user type
-  refetchUser: () =>Promise<void>;
+  refetchUser: () => Promise<void>;
   loading: boolean;
   logout: (params: LogoutParams) => void;
 }
@@ -38,11 +38,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = (params: LogoutParams) => {
     setUser(null);
     fetchLogout({ ...params });
-  }
+  };
 
   const refetchUser = async () => {
     await fetchUser();
-  }
+  };
 
   return (
     <AuthContext.Provider value={{ user, refetchUser, loading, logout }}>

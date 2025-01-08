@@ -7,7 +7,6 @@ import { authenticateToken } from "../middleware/auth";
 import { User } from "../models/User";
 const router = express.Router();
 
-
 router.post("/register", async (req: Request, res: Response<Error | IUser>) => {
   const { email, password, username } = req.body;
 

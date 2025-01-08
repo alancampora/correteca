@@ -8,6 +8,7 @@ import Singup from "./pages/singup/index.tsx";
 import { AuthProvider } from "./context/auth.tsx";
 import Landing from "./pages/landing/index.tsx";
 import Profile from "./pages/profile/index.tsx";
+import ProtectedRoute from "./components/protected-route.tsx";
 
 const router = createBrowserRouter([
   {
@@ -16,13 +17,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home />,
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/profile",
-    element: <Profile />,
+    element: (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    ),
   },
-
   {
     path: "/login",
     element: <Login />,
