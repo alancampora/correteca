@@ -31,8 +31,8 @@ app.use("/users", userRoutes);
 app.listen(PORT, () => {
   const connectionString =
     process.env.ENV === "dev"
-      ? `${process.env.DB_URI}/${process.env.DB_NAME}`
-      : `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}/${process.env.DB_NAME}`;
+      ? process.env.DB_URI_DEV
+      : process.env.DB_URI_PROD;
 
   mongoose
     .connect(connectionString, {})
