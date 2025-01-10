@@ -81,3 +81,24 @@ export const fetchLogout = async ({
     finallyCallback();
   }
 };
+
+
+export const singup = async ({ data, successCallback, errorCallback }: any) => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      successCallback();
+    } else {
+      const data = await response.json();
+      errorCallback(data.message || "Failed to log in")
+    }
+  } catch (error) {
+    errorCallback("Error registering:", error);
+  }
+
+};

@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { NavigationMenu } from "@/components/NavigationMenu";
+import { NavigationMenu } from "@/components/navigationMenu";
+import { singup } from "@/api/auth";
 
 export default function SignupPage() {
   const [username, setUsername] = useState("");
@@ -50,23 +51,13 @@ export default function SignupPage() {
   const handleSingUp = async (e: any) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:3000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, username, password }),
-      });
-
-      if (response.ok) {
-        alert("Registration successful");
+    await singup({
+      data: { email, username, password },
+      successCallback: () => {
         navigate("/login");
-      } else {
-        const data = await response.json();
-        alert(data.message);
-      }
-    } catch (error) {
-      console.error("Error registering:", error);
-    }
+      },
+      errorCallback: (error: string) => console.log(error)
+    })
   };
 
   return (
