@@ -9,7 +9,8 @@ import { AuthProvider } from "./context/auth.tsx";
 import Landing from "./pages/landing/index.tsx";
 import Profile from "./pages/profile/index.tsx";
 import ProtectedRoute from "./components/protected-route.tsx";
-
+import TrainingsPage from "./pages/trainings/index.tsx";
+import NewTrainingPage from "./pages/trainings/new/index.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +39,22 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Singup />,
+  },
+  {
+    path: "/trainings",
+    element: (
+      <ProtectedRoute>
+        <TrainingsPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/trainings/new",
+    element: (
+      <ProtectedRoute>
+        <NewTrainingPage />
+      </ProtectedRoute>
+    ),
   },
 ]);
 

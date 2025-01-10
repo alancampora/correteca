@@ -49,7 +49,7 @@ const VerticalNavbar = ({ isLoading }: VerticalNavbarProps) => {
     <div className="w-20 sm:w-48 p-2 bg-white border-r">
       <div className="w-full justify-center flex flex-row space-x-2 items-center mb-6">
         <SquareChevronRight className="w-8 h-8" />
-        <h1 className="hidden sm:inline text-lg">Codeteca</h1>
+        <h1 className="hidden sm:inline text-lg">Correteca</h1>
       </div>
 
       {navItems.map((item) => {
