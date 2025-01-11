@@ -32,7 +32,7 @@ const TrainingsPage = () => {
     navigate(`/trainings/edit/${id}`)
   }
 
-  console.log({trainings})
+  console.log({ trainings })
   return (
     <UserLayout title="Trainings">
       <button
@@ -47,25 +47,30 @@ const TrainingsPage = () => {
         ) : (
           <ul>
             {trainings.map((training: Training, index: number) => (
-              <li key={index} className="border-l-4 border-orange-600 my-4" onClick={() => handleEditTrainig(training._id)}>
-                <div className="">
+              <li key={index} className="bg-stone-100 shadow p-4 m-4" onClick={() => handleEditTrainig(training._id)}>
+
+                <div className="text-lg flex flex-row space-x-2">
+                  <p>{new Date(training.date).toLocaleDateString()}</p>
+                  <p>{training.title}</p>
+                </div>
+
+                <div className="border-l-4 border-orange-600 my-4" >
                   <div className="flex flex-row items-center">
                     <div className="min-h-[80px] text-xl font-bold flex flex-row items-center space-x-2 border-r-2 border-stone-200 p-2">
                       <RunningIcon className="w-16 h-16" />
-                      <p>{training.title}</p>
-                    </div>
-                    <div className="text-xl font-bold uppercase border-r-2 border-stone-200 p-2 items-center min-h-[80px] flex items-center p-2">
                       <p>{training.totalDistance} km</p>
                     </div>
-                    <div className="text-xl font-bold border-r-2 border-stone-200 p-2 flex items-center min-h-[80px]">
-                      <p>{new Date(training.date).toLocaleDateString()}</p>
+                    {/* <div className="text-xl font-bold uppercase border-r-2 border-stone-200 p-2 items-center min-h-[80px] flex items-center p-2">
+                      <p>{training.totalDistance} km</p>
                     </div>
+ */}
                     <div className="text-md items-center min-h-[80px] flex items-center p-2">
                       <p>Notes: {training.notes}</p>
                     </div>
 
                   </div>
                 </div>
+
               </li>
             ))}
           </ul>
