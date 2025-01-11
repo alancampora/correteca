@@ -1,13 +1,10 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
-import { IUser } from "@common/User";
-import { Error } from "@common/Error";
 import { authenticateToken } from "../middleware/auth";
 import { User } from "../models/User";
 const router = express.Router();
 
-router.post("/register", async (req: Request, res: Response<Error | IUser | { message: string }>) => {
+router.post("/register", async (req: any, res: any) => {
   const { email, password, username } = req.body;
 
   if (!email || !password || !username) {
@@ -24,12 +21,12 @@ router.post("/register", async (req: Request, res: Response<Error | IUser | { me
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    console.log('about to create user');
+    console.log("about to create user");
     // Create new user
     const newUser = new User({ email, password: hashedPassword, username });
     await newUser.save();
 
-    console.log('user created');
+    console.log("user created");
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     return res
@@ -39,7 +36,7 @@ router.post("/register", async (req: Request, res: Response<Error | IUser | { me
 });
 
 router.get("/me", authenticateToken, (req: any, res: any) => {
-  const user = req.user as IUser;
+  const user = req.user as typeof User;
   return res.json({ user });
 });
 

@@ -1,17 +1,19 @@
-import express from 'express';
-import Training from '../models/training';
+import express from "express";
+import Training from "../models/training";
 
 const router = express.Router();
 
 // Create a new training
-router.post('/', async (req, res) => {
-  
-  console.log('pasa por el post')
+router.post("/", async (req, res) => {
   try {
     const training = new Training({
       ...req.body,
       userId: req.body.userId,
-      totalDistance: req.body.laps.reduce((acc: number, lap: { distance: number }) => acc + lap.distance, 0)
+      title: req.body.title,
+      totalDistance: req.body.laps.reduce(
+        (acc: number, lap: { distance: number }) => acc + lap.distance,
+        0,
+      ),
     });
     await training.save();
     res.status(201).send(training);
@@ -21,7 +23,7 @@ router.post('/', async (req, res) => {
 });
 
 // Get all trainings
-router.get('/', async (req, res) => {
+router.get("/", async (req: any, res: any) => {
   try {
     const trainings = await Training.find({});
     res.status(200).send(trainings);
@@ -31,7 +33,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get a specific training by ID
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req: any, res: any) => {
   try {
     const training = await Training.findById(req.params.id);
     if (!training) {
@@ -44,9 +46,12 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a training by ID
-router.patch('/:id', async (req, res) => {
+router.patch("/:id", async (req: any, res: any) => {
   try {
-    const training = await Training.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const training = await Training.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
     if (!training) {
       return res.status(404).send();
     }
@@ -57,7 +62,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 // Delete a training by ID
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async (req: any, res: any) => {
   try {
     const training = await Training.findByIdAndDelete(req.params.id);
     if (!training) {
@@ -70,7 +75,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Get training statistics
-router.get('/stats', async (req, res) => {
+router.get("/stats", async (req: any, res: any) => {
   try {
     const { startDate, endDate } = req.query;
     const query: any = { userId: req.user._id };
@@ -78,31 +83,32 @@ router.get('/stats', async (req, res) => {
     if (startDate && endDate) {
       query.date = {
         $gte: new Date(startDate as string),
-        $lte: new Date(endDate as string)
+        $lte: new Date(endDate as string),
       };
     }
 
     const stats = await Training.aggregate([
       { $match: query },
-      { 
+      {
         $group: {
           _id: null,
-          totalDistance: { $sum: '$totalDistance' },
+          totalDistance: { $sum: "$totalDistance" },
           trainingCount: { $sum: 1 },
-          totalLaps: { $sum: { $size: '$laps' } },
-        }
-      }
+          totalLaps: { $sum: { $size: "$laps" } },
+        },
+      },
     ]);
 
-    res.status(200).send(stats[0] || {
-      totalDistance: 0,
-      trainingCount: 0,
-      totalLaps: 0
-    });
+    res.status(200).send(
+      stats[0] || {
+        totalDistance: 0,
+        trainingCount: 0,
+        totalLaps: 0,
+      },
+    );
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
 export default router;
-

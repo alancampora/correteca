@@ -56,8 +56,8 @@ export default function SignupPage() {
       successCallback: () => {
         navigate("/login");
       },
-      errorCallback: (error: string) => console.log(error)
-    })
+      errorCallback: (error: string) => console.log(error),
+    });
   };
 
   return (

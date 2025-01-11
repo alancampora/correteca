@@ -1,5 +1,12 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { IUser } from "@common/User";
+
+export interface IUser extends Document {
+  email: string;
+  password?: string;
+  username: string;
+  googleId?: string;
+  description?: string;
+}
 
 const UserSchema: Schema = new Schema({
   _id: {
