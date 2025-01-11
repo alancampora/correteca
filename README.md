@@ -1,6 +1,6 @@
 # Correteca
 
-Correteca is a training data management application that helps you organize and track your fitness journey effectively.
+Correteca is a training data management application for runners that helps you organize and track your fitness journey effectively.
 
 ## Purpose
 
@@ -55,7 +55,7 @@ Ensure you have the following installed on your machine:
    GOOGLE_CLIENT_ID=your_google_client_id
    FE_URI=http://localhost:5173
    DB_URI_DEV=mongodb://localhost:27017/correteca
-   DB_URI_PROD=mongodb://user:password@usercluster.2mzyslo.mongodb.net/correteca
+   DB_URI_PROD=mongodb://<user>:<password>@<db-cluster>/<db-name>
    ```
 
 3. Install the server dependencies:
