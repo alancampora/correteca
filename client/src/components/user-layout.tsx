@@ -18,7 +18,7 @@ export default function UserLayout({ title, subtitle, children }: Props) {
       {user && (
         <main className="w-full">
           <header className="">
-            <div className="flex flex-row items-center space-x-2 p-4">
+            <div className="flex flex-row items-center space-x-2 p-4 bg-orange-700 text-white">
               <RocketIcon />
               <p className="text-2xl font-bold">{title}</p>
             </div>

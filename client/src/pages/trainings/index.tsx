@@ -1,3 +1,4 @@
+import RunningIcon from "@/components/icons/running";
 import UserLayout from "@/components/user-layout";
 import { Training } from "@common/Training";
 import { useEffect, useState } from "react";
@@ -27,10 +28,15 @@ const TrainingsPage = () => {
     navigate("/trainings/new");
   };
 
+  const handleEditTrainig = (id: string) => {
+    navigate(`/trainings/edit/${id}`)
+  }
+
+  console.log({trainings})
   return (
     <UserLayout title="Trainings">
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="bg-black text-white px-4 py-2 rounded"
         onClick={handleAddTraining}
       >
         + Add Training
@@ -40,12 +46,26 @@ const TrainingsPage = () => {
           <p>No trainings available.</p>
         ) : (
           <ul>
-            {trainings.map((training: Training) => (
-              <li key={training._id} className="border-b py-2">
-                <p>Title: {training.title}</p>
-                <p>Date: {new Date(training.date).toLocaleDateString()}</p>
-                <p>Total Distance: {training.totalDistance} km</p>
-                <p>Notes: {training.notes}</p>
+            {trainings.map((training: Training, index: number) => (
+              <li key={index} className="border-l-4 border-orange-600 my-4" onClick={() => handleEditTrainig(training._id)}>
+                <div className="">
+                  <div className="flex flex-row items-center">
+                    <div className="min-h-[80px] text-xl font-bold flex flex-row items-center space-x-2 border-r-2 border-stone-200 p-2">
+                      <RunningIcon className="w-16 h-16" />
+                      <p>{training.title}</p>
+                    </div>
+                    <div className="text-xl font-bold uppercase border-r-2 border-stone-200 p-2 items-center min-h-[80px] flex items-center p-2">
+                      <p>{training.totalDistance} km</p>
+                    </div>
+                    <div className="text-xl font-bold border-r-2 border-stone-200 p-2 flex items-center min-h-[80px]">
+                      <p>{new Date(training.date).toLocaleDateString()}</p>
+                    </div>
+                    <div className="text-md items-center min-h-[80px] flex items-center p-2">
+                      <p>Notes: {training.notes}</p>
+                    </div>
+
+                  </div>
+                </div>
               </li>
             ))}
           </ul>

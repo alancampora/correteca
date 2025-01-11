@@ -46,7 +46,7 @@ const VerticalNavbar = ({ isLoading }: VerticalNavbarProps) => {
   const auth = useAuth();
 
   return (
-    <div className="w-20 sm:w-48 p-2 bg-white border-r">
+    <div className="w-20 sm:w-48 p-2 bg-stone-100 border-r">
       <div className="w-full justify-center flex flex-row space-x-2 items-center mb-6">
         <SquareChevronRight className="w-8 h-8" />
         <h1 className="hidden sm:inline text-lg">Correteca</h1>
@@ -58,7 +58,7 @@ const VerticalNavbar = ({ isLoading }: VerticalNavbarProps) => {
         ) : (
           <Link to={item?.link}>
             <button
-              className="w-full justify-center p-2 flex flex-row items-center space-x-2 transition-colors duration-200 bg-white hover:bg-gray-50 hover:text-black mb-4"
+              className="bg-stone-100 w-full justify-center p-2 flex flex-row items-center space-x-2 transition-colors duration-200 bg-white hover:bg-gray-50 hover:text-black mb-4"
               onClick={() => item.onClick && item?.onClick(auth, navigate)}
             >
               <item.icon className="w-8 h-8" />

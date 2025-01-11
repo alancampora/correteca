@@ -11,6 +11,7 @@ import Profile from "./pages/profile/index.tsx";
 import ProtectedRoute from "./components/protected-route.tsx";
 import TrainingsPage from "./pages/trainings/index.tsx";
 import NewTrainingPage from "./pages/trainings/new/index.tsx";
+import EditTrainingPage from "./pages/trainings/edit/index.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,6 +54,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <NewTrainingPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/trainings/edit/:id",
+    element: (
+      <ProtectedRoute>
+        <EditTrainingPage />
       </ProtectedRoute>
     ),
   },

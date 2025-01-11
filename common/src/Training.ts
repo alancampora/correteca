@@ -5,6 +5,7 @@ export type Lap = {
 };
 
 export type Training = {
+  _id: string;
   userId: string;
   title: string;
   totalDistance: number; // in kilometers

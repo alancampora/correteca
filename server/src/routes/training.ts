@@ -46,7 +46,7 @@ router.get("/:id", async (req: any, res: any) => {
 });
 
 // Update a training by ID
-router.patch("/:id", async (req: any, res: any) => {
+router.put("/:id", async (req: any, res: any) => {
   try {
     const training = await Training.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
