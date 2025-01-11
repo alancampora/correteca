@@ -1,16 +1,12 @@
 import {
-  Home,
   SquareChevronRight,
-  User,
-  Settings,
-  Bell,
-  LogOut,
 } from "lucide-react"; // Icons
 import HomeIcon from "./icons/home";
 import { Link, useNavigate } from "react-router";
 import { Skeleton } from "./ui/skeleton";
 import ProfileIcon from "./icons/profile";
 import ShutDownIcon from "./icons/shut-down";
+import MenRunning from "./icons/men-running";
 import { useAuth } from "@/context/auth";
 
 const navItems = [
@@ -23,6 +19,12 @@ const navItems = [
     icon: ProfileIcon,
     label: "Profile",
     link: "/profile",
+    onClick: null,
+  },
+  {
+    icon: MenRunning,
+    label: "Trainings",
+    link: "/trainings",
     onClick: null,
   },
   {
