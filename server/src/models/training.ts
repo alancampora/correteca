@@ -6,7 +6,6 @@ interface ILap extends Document {
   pace: string;         // in "MM:SS" format
 }
 
-
 interface ITraining extends Document {
   userId: string;
   title: string;
@@ -14,6 +13,7 @@ interface ITraining extends Document {
   laps: ILap[];
   date: Date;
   notes: string;
+  location?: string; // New property
 }
 
 const LapSchema: Schema = new Schema({
@@ -28,7 +28,8 @@ const TrainingSchema: Schema = new Schema({
   totalDistance: { type: Number, required: true },
   laps: { type: [LapSchema], required: true },
   date: { type: Date, required: true },
-  notes: { type: String, required: false }
+  notes: { type: String, required: false },
+  location: { type: String, required: false } // New property
 });
 
 const Training = mongoose.model<ITraining>('Training', TrainingSchema);

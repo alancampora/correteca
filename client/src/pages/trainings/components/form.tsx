@@ -16,12 +16,14 @@ interface TrainingFormProps {
     date: string;
     laps: Lap[];
     notes: string;
+    location?: string; // New property
   };
   onSubmit: (data: {
     title: string;
     date: string;
     laps: Lap[];
     notes: string;
+    location?: string; // New property
   }) => void;
   submitLabel: string;
 }
@@ -38,6 +40,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
   const [lapTime, setLapTime] = useState("");
   const [editingLapIndex, setEditingLapIndex] = useState<number | null>(null);
   const [notes, setNotes] = useState(initialData?.notes || "");
+  const [location, setLocation] = useState(initialData?.location || ""); // New state
   const [error, setError] = useState("");
 
   const totalDistance = laps.reduce((acc, lap) => acc + lap.distance, 0);
@@ -64,15 +67,12 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     }
 
     const pace = calculatePace(distance, lapTime);
-
     if (editingLapIndex !== null) {
-      // Update existing lap
       const updatedLaps = [...laps];
       updatedLaps[editingLapIndex] = { distance, time: lapTime, pace };
       setLaps(updatedLaps);
       setEditingLapIndex(null);
     } else {
-      // Add new lap
       setLaps([...laps, { distance, time: lapTime, pace }]);
     }
 
@@ -101,44 +101,80 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
       return;
     }
 
-    onSubmit({ title, date, laps, notes });
+    onSubmit({ title, date, laps, notes, location });
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto p-4">
       {error && <p className="text-red-500">{error}</p>}
-      <div>
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Title
-        </label>
-        <Input
-          id="title"
-          name="title"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label
-          htmlFor="date"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Date
-        </label>
-        <Input
-          id="date"
-          name="date"
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-        />
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Training Details</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div>
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Title
+            </label>
+            <Input
+              id="title"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Date
+            </label>
+            <Input
+              id="date"
+              name="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              placeholder="Date"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="location"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Location
+            </label>
+            <Input
+              id="location"
+              name="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Location"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="notes"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Notes
+            </label>
+            <Textarea
+              id="notes"
+              name="notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Notes"
+            />
+          </div>
+
+        </CardContent>
+      </Card>
       <Card>
         <CardHeader>
           <CardTitle>Laps</CardTitle>
@@ -190,20 +226,6 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
             ))}
           </ul>
           <p className="mt-2">Total Distance: {totalDistance} km</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Notes</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Textarea
-            id="notes"
-            name="notes"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Add any notes here"
-          />
         </CardContent>
       </Card>
       <Button type="submit" className="w-full">
