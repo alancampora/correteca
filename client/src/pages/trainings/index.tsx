@@ -89,12 +89,12 @@ const TrainingsPage = () => {
             {trainings.map((training: Training, index: number) => (
               <li
                 key={index}
-                className="shadow"
+                className="shadow mb-4"
               >
-                <div className="text-lg flex flex-row justify-between space-x-2 bg-stone-100 p-2 rounded-t-md text-bold">
+                <div className="text-md flex flex-row justify-between space-x-2 bg-stone-100 p-2 rounded-t-md text-bold">
 
                   <p>{training.title}</p>
-                  <p>{new Date(training.date).toLocaleDateString()}</p>
+                  <p>{new Date(training.date).toISOString().split("T")[0]}</p>
                 </div>
 
                 <div className="bg-stone-100 p-4 flex justify-between items-center">

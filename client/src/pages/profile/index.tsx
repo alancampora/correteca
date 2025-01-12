@@ -35,7 +35,7 @@ const ProfilePage: React.FC = () => {
 
     await updateProfile({
       data: { username: formData.username, description: formData.description },
-      userId: user?.id,
+      userId: user?._id,
       successCallback: () => {
         setSaving(false);
       },

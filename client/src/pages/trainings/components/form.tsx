@@ -34,7 +34,12 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
   submitLabel,
 }) => {
   const [title, setTitle] = useState(initialData?.title || "");
-  const [date, setDate] = useState(initialData?.date || "");
+
+  const formattedDate = initialData?.date
+    ? new Date(initialData.date).toISOString().split("T")[0]
+    : "";
+
+  const [date, setDate] = useState(formattedDate);
   const [laps, setLaps] = useState<Lap[]>(initialData?.laps || []);
   const [lapDistance, setLapDistance] = useState("");
   const [lapTime, setLapTime] = useState("");
@@ -112,7 +117,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
           <CardTitle>Training Details</CardTitle>
         </CardHeader>
         <CardContent>
-          <div>
+          <div className="mb-4">
             <label
               htmlFor="title"
               className="block text-sm font-medium text-gray-700"
@@ -127,7 +132,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
               placeholder="Title"
             />
           </div>
-          <div>
+          <div className="mb-4">
             <label
               htmlFor="date"
               className="block text-sm font-medium text-gray-700"
@@ -137,12 +142,13 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
             <Input
               id="date"
               name="date"
+              type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               placeholder="Date"
             />
           </div>
-          <div>
+          <div className="mb-4">
             <label
               htmlFor="location"
               className="block text-sm font-medium text-gray-700"
