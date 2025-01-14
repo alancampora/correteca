@@ -60,7 +60,7 @@ const VerticalNavbar = ({ isLoading }: VerticalNavbarProps) => {
         ) : (
           <Link to={item?.link}>
             <button
-              className="bg-stone-100 w-full justify-center p-2 flex flex-row items-center space-x-2 transition-colors duration-200 bg-white hover:bg-gray-50 hover:text-black mb-4"
+              className="bg-stone-100 w-full justify-center p-2 flex flex-row items-center space-x-2 transition-colors duration-200 bg-stone-100 hover:bg-gray-50 hover:text-black mb-4"
               onClick={() => item.onClick && item?.onClick(auth, navigate)}
             >
               <item.icon className="w-8 h-8" />

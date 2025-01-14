@@ -8,6 +8,7 @@ import authRoutes from "./routes/Auth";
 import loginRoutes from "./routes/Login";
 import userRoutes from "./routes/User";
 import trainingRoutes from "./routes/training"; // Added training routes
+import aiPlanRoutes from "./routes/ai-plan/ai-plan.routes";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use("/auth", authRoutes);
 app.use("/login", loginRoutes);
 app.use("/users", userRoutes);
 app.use("/trainings", trainingRoutes); // Added training routes
+app.use("/ai-plan", aiPlanRoutes); // Added training routes
 
 app.listen(PORT, () => {
   const connectionString =

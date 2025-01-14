@@ -89,7 +89,7 @@ const TrainingsPage = () => {
             {trainings.map((training: Training, index: number) => (
               <li
                 key={index}
-                className="shadow mb-4"
+                className="mb-4"
               >
                 <div className="text-md flex flex-row justify-between space-x-2 bg-stone-100 p-2 rounded-t-md text-bold">
 
@@ -97,19 +97,19 @@ const TrainingsPage = () => {
                   <p>{new Date(training.date).toISOString().split("T")[0]}</p>
                 </div>
 
-                <div className="bg-stone-100 p-4 flex justify-between items-center">
+                <div className="bg-stone-100 p-2 flex justify-between items-center">
                   <div
                     onClick={() => handleEditTraining(training._id)}
                     className="cursor-pointer w-full"
                   >
                     <div className="border-l-4 border-orange-600 my-4">
                       <div className="flex flex-row items-center">
-                        <div className="min-h-[80px] text-xl font-bold flex flex-row items-center space-x-2 border-r-2 border-stone-200 p-2">
+                        <div className="min-h-[100px]  text-xl font-bold flex flex-row items-center space-x-2 border-r-2 border-stone-200 p-2">
                           <RunningIcon className="w-16 h-16" />
                           <p>{training.totalDistance} km</p>
                         </div>
                         <div className="text-md items-center min-h-[80px] flex items-center p-2">
-                          <p>Notes: {training.notes}</p>
+                          <p>{training.notes}</p>
                         </div>
                       </div>
                     </div>
