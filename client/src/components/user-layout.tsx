@@ -8,13 +8,13 @@ type Props = {
   children: React.ReactNode;
 };
 
+//<div className="flex flex-row h-dvh">
 export default function UserLayout({ title, subtitle, children }: Props) {
   const { user, loading } = useAuth();
 
   return (
-    <div className="flex flex-row h-dvh">
+    <div className="flex flex-row max-h-dvh h-dvh">
       <VerticalNavbar isLoading={loading} />
-
       {user && (
         <main className="flex flex-col w-full">
           <header className="">

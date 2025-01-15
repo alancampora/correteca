@@ -39,6 +39,8 @@ export const generateAIPlan = async (req: Request, res: Response) => {
     // Mock logic to generate a plan based on the inputs
     const generatedPlan = mockGenerateAIPlan(goal, frequency, intensity);
 
+    console.log({generatedPlan, goal, frequency, intensity, trainings});
+
     // Simulate saving the plan to MongoDB
     const mockSavedPlan = {
       userId,
