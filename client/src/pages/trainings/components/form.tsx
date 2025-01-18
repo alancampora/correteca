@@ -178,7 +178,6 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
               placeholder="Notes"
             />
           </div>
-
         </CardContent>
       </Card>
       <Card>
@@ -216,7 +215,11 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                 <span>{lap.time}</span>
                 <span>{lap.pace} min/km</span>
                 <div className="flex space-x-2">
-                  <Button type="button" size="sm" onClick={() => handleEditLap(index)}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => handleEditLap(index)}
+                  >
                     Edit
                   </Button>
                   <Button

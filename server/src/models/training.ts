@@ -1,9 +1,9 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
 interface ILap extends Document {
-  distance: number;      // in kilometers
-  time: string;         // in "MM:SS" format
-  pace: string;         // in "MM:SS" format
+  distance: number; // in kilometers
+  time: string; // in "MM:SS" format
+  pace: string; // in "MM:SS" format
 }
 
 interface ITraining extends Document {
@@ -19,7 +19,7 @@ interface ITraining extends Document {
 const LapSchema: Schema = new Schema({
   distance: { type: Number, required: true },
   time: { type: String, required: true },
-  pace: { type: String, required: true }
+  pace: { type: String, required: true },
 });
 
 const TrainingSchema: Schema = new Schema({
@@ -29,9 +29,9 @@ const TrainingSchema: Schema = new Schema({
   laps: { type: [LapSchema], required: true },
   date: { type: Date, required: true },
   notes: { type: String, required: false },
-  location: { type: String, required: false } // New property
+  location: { type: String, required: false }, // New property
 });
 
-const Training = mongoose.model<ITraining>('Training', TrainingSchema);
+const Training = mongoose.model<ITraining>("Training", TrainingSchema);
 
 export default Training;

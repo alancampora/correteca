@@ -1,6 +1,4 @@
-import {
-  SquareChevronRight,
-} from "lucide-react"; // Icons
+import { SquareChevronRight } from "lucide-react"; // Icons
 import HomeIcon from "./icons/home";
 import { Link, useNavigate } from "react-router";
 import { Skeleton } from "./ui/skeleton";

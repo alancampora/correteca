@@ -11,7 +11,9 @@ const EditTrainingPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/trainings/${id}`);
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/trainings/${id}`,
+        );
         const data = await response.json();
         setInitialData(data);
       } catch (error) {
@@ -29,14 +31,17 @@ const EditTrainingPage: React.FC = () => {
     notes: string;
   }) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/trainings/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/trainings/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(data),
         },
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update training");

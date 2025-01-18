@@ -5,10 +5,8 @@ import { useAuth } from "@/context/auth";
 
 type Props = {};
 
-export default function Home({ }: Props) {
+export default function Home({}: Props) {
   const { user } = useAuth();
 
-  return (
-    <UserLayout title={`Welcome ${user.username}`}>test</UserLayout >
-  );
+  return <UserLayout title={`Welcome ${user.username}`}>test</UserLayout>;
 }

@@ -15,17 +15,20 @@ const NewTrainingPage: React.FC = () => {
     notes: string;
   }) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/trainings`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/trainings`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            ...data,
+            userId: user?._id,
+          }),
         },
-        credentials: "include",
-        body: JSON.stringify({
-          ...data,
-          userId: user?._id,
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create training");

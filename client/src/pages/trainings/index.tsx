@@ -17,7 +17,7 @@ const TrainingsPage = () => {
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedTrainingId, setSelectedTrainingId] = useState<string | null>(
-    null
+    null,
   );
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const TrainingsPage = () => {
     const fetchTrainings = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/trainings`
+          `${import.meta.env.VITE_API_URL}/trainings`,
         );
         const data = await response.json();
         setTrainings(data);
@@ -55,11 +55,11 @@ const TrainingsPage = () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/trainings/${selectedTrainingId}`,
-          { method: "DELETE" }
+          { method: "DELETE" },
         );
         if (response.ok) {
           setTrainings(
-            trainings.filter((training) => training._id !== selectedTrainingId)
+            trainings.filter((training) => training._id !== selectedTrainingId),
           );
         } else {
           console.error("Failed to delete training");
@@ -87,12 +87,8 @@ const TrainingsPage = () => {
         ) : (
           <ul>
             {trainings.map((training: Training, index: number) => (
-              <li
-                key={index}
-                className="mb-4"
-              >
+              <li key={index} className="mb-4">
                 <div className="text-md flex flex-row justify-between space-x-2 bg-stone-100 p-2 rounded-t-md text-bold">
-
                   <p>{training.title}</p>
                   <p>{new Date(training.date).toISOString().split("T")[0]}</p>
                 </div>

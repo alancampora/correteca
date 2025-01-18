@@ -9,7 +9,11 @@ const mockPlans = [
     intensity: "Moderate",
     plan: [
       { day: "Monday", workout: "Tempo Run", details: "4km at 5:15/km pace" },
-      { day: "Tuesday", workout: "Interval Training", details: "6x400m at 4:30/km pace" },
+      {
+        day: "Tuesday",
+        workout: "Interval Training",
+        details: "6x400m at 4:30/km pace",
+      },
       { day: "Wednesday", workout: "Easy Run", details: "5km at 6:30/km pace" },
       { day: "Friday", workout: "Long Run", details: "15km at 6:20/km pace" },
     ],
@@ -23,7 +27,11 @@ const mockPlans = [
     intensity: "Easy",
     plan: [
       { day: "Monday", workout: "Easy Run", details: "3km at 7:00/km pace" },
-      { day: "Wednesday", workout: "Tempo Run", details: "4km at 5:30/km pace" },
+      {
+        day: "Wednesday",
+        workout: "Tempo Run",
+        details: "4km at 5:30/km pace",
+      },
       { day: "Saturday", workout: "Long Run", details: "10km at 6:30/km pace" },
     ],
     createdAt: "2025-01-10T10:00:00.000Z",
@@ -39,7 +47,7 @@ export const generateAIPlan = async (req: Request, res: Response) => {
     // Mock logic to generate a plan based on the inputs
     const generatedPlan = mockGenerateAIPlan(goal, frequency, intensity);
 
-    console.log({generatedPlan, goal, frequency, intensity, trainings});
+    console.log({ generatedPlan, goal, frequency, intensity, trainings });
 
     // Simulate saving the plan to MongoDB
     const mockSavedPlan = {
@@ -63,9 +71,17 @@ export const generateAIPlan = async (req: Request, res: Response) => {
 const mockGenerateAIPlan = (
   goal: string,
   frequency: number,
-  intensity: "Easy" | "Moderate" | "Hard"
+  intensity: "Easy" | "Moderate" | "Hard",
 ) => {
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
   const workouts = {
     Easy: [
       { type: "Easy Run", details: "5km at a conversational pace (~6:30/km)" },
@@ -76,7 +92,10 @@ const mockGenerateAIPlan = (
       { type: "Interval Training", details: "6x400m at 4:30/km pace" },
     ],
     Hard: [
-      { type: "Hill Repeats", details: "10x200m uphill sprints with jog back recovery" },
+      {
+        type: "Hill Repeats",
+        details: "10x200m uphill sprints with jog back recovery",
+      },
       { type: "Long Run", details: "15km at 6:20/km pace" },
     ],
   };

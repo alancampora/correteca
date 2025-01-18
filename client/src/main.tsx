@@ -12,7 +12,7 @@ import ProtectedRoute from "./components/protected-route.tsx";
 import TrainingsPage from "./pages/trainings/index.tsx";
 import NewTrainingPage from "./pages/trainings/new/index.tsx";
 import EditTrainingPage from "./pages/trainings/edit/index.tsx";
-import AIPlan from './pages/ai-plan/index.tsx'; 
+import AIPlan from "./pages/ai-plan/index.tsx";
 
 const router = createBrowserRouter([
   {
