@@ -1,23 +1,20 @@
-import { IUser } from "@common/User";
-
-type UpdateProfileProps = {
+type GenerateAIPlan = {
   data: any;
-  userId: string;
   successCallback: Function;
   errorCallback: Function;
 };
-export const updateProfile = async ({
+
+export const getGenerateAIPlan = async ({
   data,
-  userId,
   successCallback,
   errorCallback,
-}: UpdateProfileProps) => {
+}: GenerateAIPlan) => {
   try {
 
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/ai-plan/generate`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -26,7 +23,7 @@ export const updateProfile = async ({
     );
 
     if (!response.ok) {
-      throw new Error("Failed to update profile");
+      throw new Error("Failed to generate your Running plan");
     }
 
     successCallback();

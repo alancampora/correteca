@@ -10,7 +10,7 @@ type StepProps = {
   showTitleCol?: boolean;
   onHandlePreviousStep?: () => void;
   onHandleNextStep: () => void;
-  isStepActive?:boolean
+  isStepActive?: boolean;
 };
 
 export default function FancyStep({

@@ -7,12 +7,7 @@ const openai = new OpenAI({
 });
 
 export const generateAIPlan = async (req: Request, res: Response) => {
-  const { userId, messages } = req.body;
-
-  const goal = "";
-  const frequency = "4";
-  const intensity = "Medium";
-  const trainings = [];
+  const { userId, messages, frequency, intensity, goal, timeframe } = req.body;
 
   try {
     const prompt = `
@@ -21,24 +16,28 @@ export const generateAIPlan = async (req: Request, res: Response) => {
         Goal: ${goal}
         Frequency: ${frequency} days per week
         Intensity: ${intensity}
-        Previous Trainings: ${JSON.stringify(trainings)}
+        Timeframe: ${timeframe} (e.g., "1 month" or "no time restrictions")
 
         Ensure the plan:
-        1. Maximizes the training days (${frequency} days per week) by including easy runs, intervals, tempo runs, long runs, and rest days for optimal recovery.
-        2. Progressively builds the user's endurance, speed, and strength to achieve the stated goal (${goal}).
-        3. Includes specific notes for each session, such as pace guidelines (e.g., conversational pace, race pace) and recovery advice.
+        1. If a timeframe is specified (${timeframe}), adjust the plan to fit within the given duration, progressively building endurance, speed, and strength each week to achieve the stated goal (${goal}).
+        2. If no timeframe is specified, create a flexible and progressive plan that spans multiple weeks or months, gradually increasing intensity and volume without overtraining.
+        3. Maximize the training days (${frequency} days per week) by including a mix of easy runs, intervals, tempo runs, long runs, and rest days for recovery.
+        4. Provide clear and specific notes for each session, such as pace guidelines (e.g., conversational pace, race pace), recovery advice, and hydration tips.
 
-        Provide the response in JSON format only, without any code block delimiters or extra text:
+        Output the training plan in JSON format only, without any code block delimiters or extra text:
         {
           "recommendation": "Based on your input, this is your personalized training plan designed to achieve your goal.",
-          "sessions": [
-            { "day": "Monday", "workout": "5km Easy Run", "notes": "Maintain a conversational pace (~70% effort)." },
-            { "day": "Tuesday", "workout": "Intervals: 6x800m at race pace", "notes": "Take a 2-minute jog between intervals." },
-            { "day": "Wednesday", "workout": "Rest or Cross-Training", "notes": "Focus on recovery with light yoga or cycling." },
-            { "day": "Thursday", "workout": "Tempo Run: 6km at threshold pace", "notes": "Run at 80-85% effort to improve stamina." },
-            { "day": "Friday", "workout": "5km Easy Run", "notes": "Relaxed conversational pace." },
-            { "day": "Saturday", "workout": "Long Run: 12km at an easy pace", "notes": "Focus on endurance. Hydrate well before and after." },
-            { "day": "Sunday", "workout": "Rest", "notes": "Full recovery day to prepare for the week ahead." }
+          "weeks": [
+            {
+              "week": 1,
+              "workouts": [
+                { "day": "Monday", "workout": "5km Easy Run", "notes": "Maintain a conversational pace (~70% effort)." },
+                { "day": "Wednesday", "workout": "Intervals: 6x400m at race pace", "notes": "Run each interval at 4:50/km pace. Take a 90-second jog between intervals." },
+                { "day": "Friday", "workout": "Tempo Run: 6km at threshold pace", "notes": "Run at 80% effort (~5:00/km pace)." },
+                { "day": "Sunday", "workout": "Long Run: 10km at an easy pace", "notes": "Focus on endurance and hydration. Keep your pace relaxed (~6:00/km)." }
+              ]
+            }
+            // Add subsequent weeks based on the timeframe or create an open-ended progressive plan
           ]
         }
         `;

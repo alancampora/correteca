@@ -53,11 +53,21 @@ export default {
       },
       animation: {
         dynamic: "dynamicMove 1.5s ease-in-out infinite",
+        'spin-slow': 'spin 2s linear infinite',
+        'bounce-slow': 'bounce-slow 2s infinite',
       },
       keyframes: {
         dynamicMove: {
           "0%, 100%": { transform: "translateY(0)", opacity: 1 },
           "50%": { transform: "translateY(-20px)", opacity: 0.5 },
+        },
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'bounce-slow': {
+          '0%, 100%': { transform: 'translateY(-5px)' },
+          '50%': { transform: 'translateY(5px)' },
         },
       },
     },

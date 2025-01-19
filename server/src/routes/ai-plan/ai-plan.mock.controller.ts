@@ -1,132 +1,106 @@
 import { Request, Response } from "express";
 
-// Mock data for testing getUserAIPlans
-const mockPlans = [
-  {
-    userId: "12345",
-    goal: "Run a half-marathon under 2 hours",
-    frequency: 5,
-    intensity: "Moderate",
-    plan: [
-      { day: "Monday", workout: "Tempo Run", details: "4km at 5:15/km pace" },
-      {
-        day: "Tuesday",
-        workout: "Interval Training",
-        details: "6x400m at 4:30/km pace",
-      },
-      { day: "Wednesday", workout: "Easy Run", details: "5km at 6:30/km pace" },
-      { day: "Friday", workout: "Long Run", details: "15km at 6:20/km pace" },
-    ],
-    createdAt: "2025-01-11T10:00:00.000Z",
-    updatedAt: "2025-01-11T10:00:00.000Z",
-  },
-  {
-    userId: "12345",
-    goal: "Run a 10k under 50 minutes",
-    frequency: 3,
-    intensity: "Easy",
-    plan: [
-      { day: "Monday", workout: "Easy Run", details: "3km at 7:00/km pace" },
-      {
-        day: "Wednesday",
-        workout: "Tempo Run",
-        details: "4km at 5:30/km pace",
-      },
-      { day: "Saturday", workout: "Long Run", details: "10km at 6:30/km pace" },
-    ],
-    createdAt: "2025-01-10T10:00:00.000Z",
-    updatedAt: "2025-01-10T10:00:00.000Z",
-  },
-];
+const mock21Kdata3months = {
+  "recommendation": "Based on your input and a 3-month timeframe, this is your personalized training plan designed to help you achieve your goal of running a 21k under 2 hours. The plan includes progressive phases for endurance, speed, and stamina development, culminating in peak performance for race day.",
+  "weeks": [
+    {
+      "week": 1,
+      "workouts": [
+        { "day": "Monday", "workout": "5km Easy Run", "notes": "Maintain a conversational pace (~6:15/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 5x800m at race pace", "notes": "Run each interval at 5:30/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "4km Tempo Run", "notes": "Run at 5:45/km to improve stamina." },
+        { "day": "Sunday", "workout": "Long Run: 10km at an easy pace", "notes": "Focus on endurance. Keep your pace relaxed (~6:20/km)." }
+      ]
+    },
+    {
+      "week": 2,
+      "workouts": [
+        { "day": "Monday", "workout": "6km Easy Run", "notes": "Maintain a conversational pace (~6:15/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 6x800m at race pace", "notes": "Run each interval at 5:25/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "5km Tempo Run", "notes": "Run at 5:40/km to improve stamina." },
+        { "day": "Sunday", "workout": "Long Run: 12km at an easy pace", "notes": "Build endurance with a steady pace (~6:10/km)." }
+      ]
+    },
+    {
+      "week": 3,
+      "workouts": [
+        { "day": "Monday", "workout": "6km Easy Run", "notes": "Maintain a conversational pace (~6:15/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 5x1km at race pace", "notes": "Run each interval at 5:25/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "6km Tempo Run", "notes": "Run at 5:40/km to improve stamina." },
+        { "day": "Sunday", "workout": "Long Run: 14km at an easy pace", "notes": "Focus on endurance with a steady pace (~6:10/km)." }
+      ]
+    },
+    {
+      "week": 4,
+      "workouts": [
+        { "day": "Monday", "workout": "7km Easy Run", "notes": "Maintain a conversational pace (~6:10/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 6x1km at race pace", "notes": "Run each interval at 5:20/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "6km Tempo Run", "notes": "Run at 5:35/km to improve stamina." },
+        { "day": "Sunday", "workout": "Long Run: 16km at an easy pace", "notes": "Build endurance with a steady pace (~6:00/km)." }
+      ]
+    },
+    {
+      "week": 5,
+      "workouts": [
+        { "day": "Monday", "workout": "7km Easy Run", "notes": "Maintain a conversational pace (~6:10/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 7x1km at race pace", "notes": "Run each interval at 5:20/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "6km Tempo Run", "notes": "Run at 5:30/km to improve stamina." },
+        { "day": "Sunday", "workout": "Long Run: 18km at an easy pace", "notes": "Build endurance with a steady pace (~6:00/km)." }
+      ]
+    },
+    {
+      "week": 6,
+      "workouts": [
+        { "day": "Monday", "workout": "7km Easy Run", "notes": "Maintain a conversational pace (~6:10/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 8x800m at race pace", "notes": "Run each interval at 5:15/km. Take a 90-second jog between intervals." },
+        { "day": "Friday", "workout": "7km Tempo Run", "notes": "Run at 5:30/km to build stamina and lactate threshold." },
+        { "day": "Sunday", "workout": "Long Run: 20km at an easy pace", "notes": "Focus on endurance with a steady pace (~6:00/km)." }
+      ]
+    },
+    {
+      "week": 7,
+      "workouts": [
+        { "day": "Monday", "workout": "8km Easy Run", "notes": "Maintain a conversational pace (~6:10/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 8x1km at race pace", "notes": "Run each interval at 5:15/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "7km Tempo Run", "notes": "Run at 5:30/km to improve stamina and endurance." },
+        { "day": "Sunday", "workout": "Long Run: 21km Race Simulation", "notes": "Run at your goal race pace (~5:40/km)." }
+      ]
+    },
+    {
+      "week": 8,
+      "workouts": [
+        { "day": "Monday", "workout": "6km Easy Run", "notes": "Maintain a conversational pace (~6:10/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 6x1km at race pace", "notes": "Run each interval at 5:15/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "5km Tempo Run", "notes": "Run at 5:35/km to improve stamina." },
+        { "day": "Sunday", "workout": "Long Run: 18km at an easy pace", "notes": "Focus on endurance with a steady pace (~6:00/km)." }
+      ]
+    },
+    {
+      "week": 9,
+      "workouts": [
+        { "day": "Monday", "workout": "6km Easy Run", "notes": "Maintain a conversational pace (~6:10/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 5x1km at race pace", "notes": "Run each interval at 5:15/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "5km Easy Run", "notes": "Relaxed pace to recover (~6:20/km)." },
+        { "day": "Sunday", "workout": "Long Run: 10km at an easy pace", "notes": "Tapering week; keep it relaxed." }
+      ]
+    },
+    {
+      "week": 10,
+      "workouts": [
+        { "day": "Monday", "workout": "5km Easy Run", "notes": "Maintain a relaxed pace (~6:15/km)." },
+        { "day": "Wednesday", "workout": "Intervals: 4x800m at race pace", "notes": "Run each interval at 5:15/km. Take a 2-minute jog between intervals." },
+        { "day": "Friday", "workout": "4km Easy Run", "notes": "Relaxed conversational pace to prepare for race day (~6:20/km)." },
+        { "day": "Sunday", "workout": "Race Day: 21km", "notes": "Run at your planned race pace (~5:40/km)." }
+      ]
+    }
+  ]
+}
 
-// Mock function to generate a new AI running plan
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const generateAIPlan = async (req: Request, res: Response) => {
-  const { userId, goal, frequency, intensity, trainings } = req.body;
-
-  try {
-    // Mock logic to generate a plan based on the inputs
-    const generatedPlan = mockGenerateAIPlan(goal, frequency, intensity);
-
-    console.log({ generatedPlan, goal, frequency, intensity, trainings });
-
-    // Simulate saving the plan to MongoDB
-    const mockSavedPlan = {
-      userId,
-      goal,
-      frequency,
-      intensity,
-      plan: generatedPlan,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    res.status(201).json(mockSavedPlan);
-  } catch (error) {
-    console.error("Error generating AI plan:", error);
-    res.status(500).json({ message: "Failed to generate AI plan" });
-  }
-};
-
-// Mock function to generate a running plan based on goal, frequency, and intensity
-const mockGenerateAIPlan = (
-  goal: string,
-  frequency: number,
-  intensity: "Easy" | "Moderate" | "Hard",
-) => {
-  const daysOfWeek = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-  const workouts = {
-    Easy: [
-      { type: "Easy Run", details: "5km at a conversational pace (~6:30/km)" },
-      { type: "Recovery Run", details: "3km at ~7:00/km pace" },
-    ],
-    Moderate: [
-      { type: "Tempo Run", details: "4km at 5:15/km pace" },
-      { type: "Interval Training", details: "6x400m at 4:30/km pace" },
-    ],
-    Hard: [
-      {
-        type: "Hill Repeats",
-        details: "10x200m uphill sprints with jog back recovery",
-      },
-      { type: "Long Run", details: "15km at 6:20/km pace" },
-    ],
-  };
-
-  // Generate a plan for the selected frequency
-  const plan = [];
-  for (let i = 0; i < frequency; i++) {
-    const dayIndex = i % daysOfWeek.length; // Rotate through the days of the week
-    const workoutType = workouts[intensity][i % workouts[intensity].length];
-
-    plan.push({
-      day: daysOfWeek[dayIndex],
-      workout: workoutType.type,
-      details: workoutType.details,
-    });
-  }
-
-  return plan;
-};
-
-// Mock function to get all AI plans for a specific user
-export const getUserAIPlans = async (req: Request, res: Response) => {
-  const { userId } = req.params;
-
-  try {
-    // Filter mock plans by userId
-    const userPlans = mockPlans.filter((plan) => plan.userId === userId);
-
-    res.status(200).json(userPlans);
-  } catch (error) {
-    console.error("Error fetching mock AI plans:", error);
-    res.status(500).json({ message: "Failed to fetch AI plans" });
-  }
-};
+  await sleep(5000);
+  res.status(200).json(mock21Kdata3months);
+};  

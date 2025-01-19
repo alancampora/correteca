@@ -1,6 +1,6 @@
 import express from "express";
 //import { generateAIPlan, getUserAIPlans } from "./ai-plan.mock.controller";
-import { generateAIPlan, getUserAIPlans } from "./ai-plan.controller";
+import { generateAIPlan } from "./ai-plan.mock.controller";
 
 const router = express.Router();
 
@@ -8,6 +8,6 @@ const router = express.Router();
 router.post("/generate", generateAIPlan);
 
 // Route to fetch user's AI plans
-router.get("/user/:userId", getUserAIPlans);
+//router.get("/user/:userId", getUserAIPlans);
 
 export default router;
