@@ -5,8 +5,8 @@ import AnimatedText from "./animated-text";
 type StepProps = {
   children: ReactNode;
   className: string;
-  title: string; // Step title
-  icon: React.ReactNode; // Icon component
+  title?: string; // Step title
+  icon?: React.ReactNode; // Icon component
   showTitleCol?: boolean;
   onHandlePreviousStep?: () => void;
   onHandleNextStep: () => void;
@@ -44,7 +44,7 @@ export default function FancyStep({
           </Button>
         </div>
 
-        <div
+        {title && <div
           className={`flex items-center space-y-4 ${showTitleCol ? "flex-col" : "flex-row"}`}
         >
           <AnimatedText
@@ -53,7 +53,7 @@ export default function FancyStep({
             trigger={isStepActive}
           />
           {icon}
-        </div>
+        </div>}
 
         <div className="mt-4">{children}</div>
       </div>

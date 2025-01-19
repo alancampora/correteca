@@ -26,7 +26,9 @@ export const getGenerateAIPlan = async ({
       throw new Error("Failed to generate your Running plan");
     }
 
-    successCallback();
+    const plan = await response.json();
+
+    successCallback(plan);
   } catch (error) {
     console.error(error);
     errorCallback();

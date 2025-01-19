@@ -1,6 +1,5 @@
 import { ReactNode, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import GoalIcon from "@/components/icons/goal";
 import CalendarIcon from "@/components/icons/calendar";
@@ -10,18 +9,36 @@ import LevelsIcon from "@/components/icons/levels";
 import SandClock from "@/components/icons/sand-clock";
 import { getGenerateAIPlan } from "@/api/ai-plan";
 import LoadingIndicator from "@/components/loading";
+import Plan from "./components/plan";
+
+type TPlan = {
+  recommendation: string;
+  weeks: [
+    {
+      week: number;
+      workouts: [
+        {
+          day: number;
+          workout: string;
+          notes: string;
+        }
+      ]
+    }
+  ]
+}
 
 const TrainingWorkflow: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false); // Tracks the current step
   const [step, setStep] = useState(1); // Tracks the current step
   const [goal, setGoal] = useState(""); // User's goal
+  const [plan, setPlan] = useState<TPlan | null>(null);
   const [frequency, setFrequency] = useState("3"); // Training frequency
   const [timeRestriction, setTimeRestriction] = useState("1 month"); // Training frequency
   const [level, setLevel] = useState("Beginner"); // Running level
   const [direction, setDirection] = useState<"forward" | "backward">("forward"); // Animation direction
 
   const handleNextStep = () => {
-    if (step < 5) {
+    if (step < 6) {
       setDirection("forward");
       setStep(step + 1);
     }
@@ -50,7 +67,12 @@ const TrainingWorkflow: React.FC = () => {
         level,
         timeRestriction
       },
-      successCallback: () => { setIsLoading(false); },
+      successCallback: (data: any) => {
+        setDirection("forward");
+        setStep(step + 1);
+        setPlan(data);
+        setIsLoading(false);
+      },
       errorCallback: () => { setIsLoading(false); },
     })
 
@@ -175,6 +197,13 @@ const TrainingWorkflow: React.FC = () => {
                 ))}
               </RadioGroup>
             </FancyStep>
+
+            {plan &&
+              <FancyStep
+                className={getStepClass(6)}
+                onHandleNextStep={handleSubmit}>
+                <Plan plan={plan} />
+              </FancyStep>}
           </div>
         </div>
       )

@@ -39,7 +39,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
     }
   }, [trigger]);
 
-  return <span className={className}>{displayedText}</span>;
+  return <span className={`${className} animate-fade-in`}>{displayedText}</span>;
 };
 
 export default AnimatedText;
