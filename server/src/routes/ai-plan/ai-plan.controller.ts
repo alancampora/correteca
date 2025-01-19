@@ -43,11 +43,12 @@ export const generateAIPlan = async (req: Request, res: Response) => {
         }
         `;
 
-
-
     const formattedMessages = messages.map((msg: any) => ({
       role: msg.role,
-      content: typeof msg.content === "object" ? JSON.stringify(msg.content) : msg.content,
+      content:
+        typeof msg.content === "object"
+          ? JSON.stringify(msg.content)
+          : msg.content,
     }));
 
     if (false) {
