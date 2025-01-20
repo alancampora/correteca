@@ -13,15 +13,16 @@ type Plan = {
           day: number;
           workout: string;
           notes: string;
-        }
-      ]
-    }
-  ]
-}
+        },
+      ];
+    },
+  ];
+};
 
 const PlanRenderer: React.FC<{ plan: Plan }> = ({ plan }) => {
   const [renderedWeeks, setRenderedWeeks] = useState<number>(0); // Tracks how many weeks to show
-  const [isRecommendationComplete, setIsRecommendationComplete] = useState(false);
+  const [isRecommendationComplete, setIsRecommendationComplete] =
+    useState(false);
 
   useEffect(() => {
     if (isRecommendationComplete) {
@@ -52,13 +53,15 @@ const PlanRenderer: React.FC<{ plan: Plan }> = ({ plan }) => {
             onComplete={() => setIsRecommendationComplete(true)}
           />
         </div>
-
       </div>
       {/* Render Weeks */}
       <div className="mt-4">
         {isRecommendationComplete &&
           plan.weeks.slice(0, renderedWeeks).map((week) => (
-            <div key={week.week} className="mt-4 animate-fade-in p-2 bg-indigo-100 rounded">
+            <div
+              key={week.week}
+              className="mt-4 animate-fade-in p-2 bg-indigo-100 rounded"
+            >
               <p className="text-lg font-semibold">Week {week.week}</p>
               <div className="mt-2">
                 {week.workouts.map((workout) => (

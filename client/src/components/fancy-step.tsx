@@ -44,16 +44,18 @@ export default function FancyStep({
           </Button>
         </div>
 
-        {title && <div
-          className={`flex items-center space-y-4 ${showTitleCol ? "flex-col" : "flex-row"}`}
-        >
-          <AnimatedText
-            className="text-4xl font-semibold text-center"
-            text={title}
-            trigger={isStepActive}
-          />
-          {icon}
-        </div>}
+        {title && (
+          <div
+            className={`flex items-center space-y-4 ${showTitleCol ? "flex-col" : "flex-row"}`}
+          >
+            <AnimatedText
+              className="text-4xl font-semibold text-center"
+              text={title}
+              trigger={isStepActive}
+            />
+            {icon}
+          </div>
+        )}
 
         <div className="mt-4">{children}</div>
       </div>

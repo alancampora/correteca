@@ -10,7 +10,6 @@ export const getGenerateAIPlan = async ({
   errorCallback,
 }: GenerateAIPlan) => {
   try {
-
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/ai-plan/generate`,
       {

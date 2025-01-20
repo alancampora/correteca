@@ -53,8 +53,8 @@ export default {
       },
       animation: {
         dynamic: "dynamicMove 1.5s ease-in-out infinite",
-        'spin-slow': 'spin 2s linear infinite',
-        'bounce-slow': 'bounce-slow 2s infinite',
+        "spin-slow": "spin 2s linear infinite",
+        "bounce-slow": "bounce-slow 2s infinite",
         "fade-in": "fade-in 1s ease-in-out",
       },
       keyframes: {
@@ -63,12 +63,12 @@ export default {
           "50%": { transform: "translateY(-20px)", opacity: 0.5 },
         },
         spin: {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
         },
-        'bounce-slow': {
-          '0%, 100%': { transform: 'translateY(-5px)' },
-          '50%': { transform: 'translateY(5px)' },
+        "bounce-slow": {
+          "0%, 100%": { transform: "translateY(-5px)" },
+          "50%": { transform: "translateY(5px)" },
         },
         "fade-in": {
           "0%": { opacity: 0, transform: "translateY(10px)" },

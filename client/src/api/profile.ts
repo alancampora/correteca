@@ -13,7 +13,6 @@ export const updateProfile = async ({
   errorCallback,
 }: UpdateProfileProps) => {
   try {
-
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/ai-plan/generate`,
       {
