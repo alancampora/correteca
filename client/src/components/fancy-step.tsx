@@ -11,6 +11,7 @@ type StepProps = {
   onHandlePreviousStep?: () => void;
   onHandleNextStep: () => void;
   isStepActive?: boolean;
+  isNextButtonEnabled?: boolean;
 };
 
 export default function FancyStep({
@@ -22,6 +23,7 @@ export default function FancyStep({
   isStepActive,
   onHandlePreviousStep,
   onHandleNextStep,
+  isNextButtonEnabled = true,
 }: StepProps) {
   return (
     <div
@@ -39,7 +41,7 @@ export default function FancyStep({
               Back
             </Button>
           )}
-          <Button onClick={onHandleNextStep} className="bg-indigo-600 w-full">
+          <Button onClick={onHandleNextStep} className="bg-indigo-600 w-full" disabled={!isNextButtonEnabled}>
             Next
           </Button>
         </div>

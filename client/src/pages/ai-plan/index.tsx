@@ -1,6 +1,5 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import GoalIcon from "@/components/icons/goal";
 import CalendarIcon from "@/components/icons/calendar";
 import RobotIcon from "@/components/icons/robot";
@@ -108,6 +107,7 @@ const TrainingWorkflow: React.FC = () => {
           className={getStepClass(2)}
           onHandleNextStep={handleNextStep}
           onHandlePreviousStep={handlePreviousStep}
+          isNextButtonEnabled={goal.length > 0}
           title="What is your goal?"
           icon={<GoalIcon className="w-16 h-16" />}
           showTitleCol={true}
