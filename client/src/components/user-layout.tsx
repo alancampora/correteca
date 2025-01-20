@@ -18,14 +18,14 @@ export default function UserLayout({ title, subtitle, children }: Props) {
       {user && (
         <main className="flex flex-col w-full">
           <header className="">
-            <div className="flex flex-row items-center space-x-2 p-4 bg-orange-700 text-white">
+            <div className="flex flex-row items-center space-x-2 p-4 bg-indigo-700 text-white">
               <RocketIcon />
-              <p className="text-2xl font-bold">{title}</p>
+              <p className="text-2xl font-semibold">{title}</p>
             </div>
             {subtitle && <p className="text-lg px-2">{subtitle}</p>}
           </header>
 
-          <section className="flex-grow p-4">{children}</section>
+          <section className="flex-grow p-4 overflow-y-auto ">{children}</section>
         </main>
       )}
     </div>
