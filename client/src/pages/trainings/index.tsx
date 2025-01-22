@@ -12,8 +12,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/auth";
 
 const TrainingsPage = () => {
+  const {user}= useAuth();
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedTrainingId, setSelectedTrainingId] = useState<string | null>(
@@ -25,7 +27,7 @@ const TrainingsPage = () => {
     const fetchTrainings = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/trainings`,
+          `${import.meta.env.VITE_API_URL}/trainings/user/${user._id}`,
         );
         const data = await response.json();
         setTrainings(data);
@@ -35,7 +37,7 @@ const TrainingsPage = () => {
     };
 
     fetchTrainings();
-  }, []);
+  }, [user]);
 
   const handleAddTraining = () => {
     navigate("/trainings/new");
