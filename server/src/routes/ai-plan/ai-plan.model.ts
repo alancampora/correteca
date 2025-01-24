@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 
 // Define the schema for an AI-generated plan
 const aiPlanSchema = new Schema(
@@ -10,17 +10,25 @@ const aiPlanSchema = new Schema(
     },
     goal: { type: String, required: true },
     frequency: { type: Number, required: true },
-    intensity: {
+    level: {
       type: String,
-      enum: ["Easy", "Moderate", "Hard"],
+      enum: ["beginner", "intermediate", "advanced"],
+      required: true,
+    },
+    timeRestriction: {
+      type: String,
       required: true,
     },
     plan: {
       recommendation: { type: String },
-      sessions: [
+      weeks: [
         {
-          day: { type: String, required: true },
-          workout: { type: String, required: true },
+          week: { type: Number, required: true },
+          workouts: [{
+            day: { type: String, required: true },
+            notes: { type: String, required: true },
+            workout: { type: String, required: true },
+          }],
         },
       ],
     },
@@ -32,13 +40,24 @@ const aiPlanSchema = new Schema(
 
 // Export the Mongoose model
 const AIPlan = mongoose.model<IAIPlanDocument>("AIPlan", aiPlanSchema);
+
 export default AIPlan;
 
-// Define the Mongoose Document type for TypeScript
 export interface IAIPlanDocument extends Document {
-  userId: string;
-  goal: string;
-  frequency: number;
-  intensity: "Easy" | "Moderate" | "Hard";
-  plan: Array<{ day: string; workout: string }>;
+  userId: Types.ObjectId; // Reference to the User model
+  goal: string; // User's training goal
+  frequency: number; // Training frequency (days per week)
+  level: "beginner" | "intermediate" | "advanced"; // Running level
+  timeRestriction: string; // Timeframe for the goal
+  plan: {
+    recommendation?: string; // Recommendation for the training plan
+    weeks: {
+      week: number; // Week number
+      workouts: {
+        day: string; // Day of the week
+        workout: string; // Workout description
+        notes: string; // Notes or guidance for the workout
+      }[];
+    }[];
+  };
 }

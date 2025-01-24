@@ -5,6 +5,7 @@ import { Skeleton } from "./ui/skeleton";
 import ProfileIcon from "./icons/profile";
 import ShutDownIcon from "./icons/shut-down";
 import MenRunning from "./icons/men-running";
+import Plan from "./icons/plan";
 import { useAuth } from "@/context/auth";
 
 const navItems = [
@@ -23,6 +24,12 @@ const navItems = [
     icon: MenRunning,
     label: "Trainings",
     link: "/trainings",
+    onClick: null,
+  },
+  {
+    icon: Plan,
+    label: "Plan",
+    link: "/plan",
     onClick: null,
   },
   {

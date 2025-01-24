@@ -10,6 +10,7 @@ export const getGenerateAIPlan = async ({
   errorCallback,
 }: GenerateAIPlan) => {
   try {
+
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/ai-plan/generate`,
       {
@@ -33,3 +34,28 @@ export const getGenerateAIPlan = async ({
     errorCallback();
   }
 };
+
+
+export const savePlanAIPlan = async ({data, successCallback, errorCallback} : GenerateAIPlan) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/ai-plan/save`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to save your Running plan");
+    }
+
+    successCallback();
+  } catch (error) {
+    console.error(error);
+    errorCallback();
+  } 
+}

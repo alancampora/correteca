@@ -6,11 +6,14 @@ import RobotIcon from "@/components/icons/robot";
 import FancyStep from "@/components/fancy-step";
 import LevelsIcon from "@/components/icons/levels";
 import SandClock from "@/components/icons/sand-clock";
-import { getGenerateAIPlan } from "@/api/ai-plan";
+import { getGenerateAIPlan, savePlanAIPlan } from "@/api/ai-plan";
 import LoadingIndicator from "@/components/loading";
 import Plan from "./components/plan";
 import RadioGroupComponent from "./components/radio-group";
 import UserLayout from "@/components/user-layout";
+import { UserRoundIcon } from "lucide-react";
+import { useAuth } from "@/context/auth";
+import { useNavigate } from "react-router-dom";
 
 type TPlan = {
   recommendation: string;
@@ -29,14 +32,17 @@ type TPlan = {
 };
 
 const TrainingWorkflow: React.FC = () => {
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false); // Tracks the current step
   const [step, setStep] = useState(1); // Tracks the current step
   const [goal, setGoal] = useState(""); // User's goal
   const [plan, setPlan] = useState<TPlan | null>(null);
   const [frequency, setFrequency] = useState("3"); // Training frequency
   const [timeRestriction, setTimeRestriction] = useState<string>("1 month"); // Training frequency
-  const [level, setLevel] = useState("Beginner"); // Running level
+  const [level, setLevel] = useState("beginner"); // Running level
   const [direction, setDirection] = useState<"forward" | "backward">("forward"); // Animation direction
+
+  const navigate = useNavigate();
 
   const handleNextStep = () => {
     if (step < 6) {
@@ -80,6 +86,29 @@ const TrainingWorkflow: React.FC = () => {
       },
     });
   };
+
+  const handleSave = async () => {
+
+    setIsLoading(true);
+
+    await savePlanAIPlan({
+      data: {
+        userId: user?._id,
+        goal,
+        frequency,
+        level,
+        timeRestriction,
+        plan,
+      },
+      successCallback: () => {
+        navigate("/plan");
+      },
+      errorCallback: () => {
+        console.log("error");
+      }
+
+    })
+  }
 
   const getStepClass = (currentStep: number) => {
     if (currentStep === step)
@@ -176,14 +205,15 @@ const TrainingWorkflow: React.FC = () => {
               <RadioGroupComponent
                 value={level}
                 onChange={setLevel}
-                options={["Beginner", "Intermediate", "Advanced"]}
+                options={["beginner", "intermediate", "advanced"]}
               />
             </FancyStep>
 
             {plan && (
               <FancyStep
                 className={getStepClass(6)}
-                onHandleNextStep={handleSubmit}
+                onHandleNextStep={handleSave}
+                nextButtonLabel="Save"
               >
                 <Plan plan={plan} />
               </FancyStep>

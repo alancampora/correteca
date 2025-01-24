@@ -12,7 +12,8 @@ import ProtectedRoute from "./components/protected-route.tsx";
 import TrainingsPage from "./pages/trainings/index.tsx";
 import NewTrainingPage from "./pages/trainings/new/index.tsx";
 import EditTrainingPage from "./pages/trainings/edit/index.tsx";
-import AIPlan from "./pages/ai-plan/index.tsx";
+import Plan from "./pages/plan/index.tsx";
+import PlanAI from "./pages/plan/create/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -68,13 +69,22 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/ai-plan/",
+    path: "/plan/",
     element: (
       <ProtectedRoute>
-        <AIPlan />
+        <Plan />
       </ProtectedRoute>
     ),
   },
+  {
+    path: "/plan/create",
+    element: (
+      <ProtectedRoute>
+        <PlanAI />
+      </ProtectedRoute>
+    ),
+  },
+
 ]);
 
 createRoot(document.getElementById("root")!).render(
