@@ -8,7 +8,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-//<div className="flex flex-row h-dvh">
 export default function UserLayout({ title, subtitle, children }: Props) {
   const { user, loading } = useAuth();
 

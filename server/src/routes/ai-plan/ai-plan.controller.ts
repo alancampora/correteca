@@ -103,4 +103,22 @@ export const getAllGeneratedPlans = async (req: Request, res: Response) => {
     console.error("Error fetching plans:", error);
     res.status(500).json({ message: "Failed to fetch plans." });
   }
+};
+
+export const getPlanForUser = async (req, res) => {
+  const { planId } = req.params;
+  const { userId } = req.query; // userId should be passed as a query parameter
+
+  try {
+    const plan = await AIPlan.findOne({ _id: planId, userId });
+
+    if (!plan) {
+      return res.status(404).json({ message: "Plan not found" });
+    }
+
+    res.status(200).json(plan);
+  } catch (error) {
+    console.error("Error fetching the plan:", error);
+    res.status(500).json({ message: "Failed to fetch the plan" });
+  }
 }

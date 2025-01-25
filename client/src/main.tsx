@@ -13,6 +13,7 @@ import TrainingsPage from "./pages/trainings/index.tsx";
 import NewTrainingPage from "./pages/trainings/new/index.tsx";
 import EditTrainingPage from "./pages/trainings/edit/index.tsx";
 import Plan from "./pages/plan/index.tsx";
+import PlanView from "./pages/plan/id/index.tsx";
 import PlanAI from "./pages/plan/create/index.tsx";
 
 const router = createBrowserRouter([
@@ -76,6 +77,15 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
+  {
+    path: "/plan/:planId",
+    element: (
+      <ProtectedRoute>
+        <PlanView />
+      </ProtectedRoute>
+    ),
+  },
+
   {
     path: "/plan/create",
     element: (

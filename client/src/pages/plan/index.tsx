@@ -66,7 +66,7 @@ const PlansPage: React.FC = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => navigate(`/plans/${plan._id}`)}
+                    onClick={() => navigate(`/plan/${plan._id}`)}
                   >
                     View Details
                   </Button>
