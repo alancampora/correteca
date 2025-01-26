@@ -70,8 +70,10 @@ const PlanDetails: React.FC = () => {
 
   return (
     <UserLayout title="Training Plan">
-      <h2 className="text-xl font-semibold mb-4">Goal: {plan.goal}</h2>
-      <div className="flex flex-row space-x-4 mx-auto justify-center">
+      <div className="flex justify-center p-2 rounded bg-amber-100 m-2">
+        <p className="text-xl font-semibold italic">Goal: {plan.goal}</p>
+      </div>
+      <div className="flex flex-row space-x-4 mx-auto justify-center mt-4">
         <ScoreCard
           title="Training Frequency"
           content={`${plan.frequency} days/week`}

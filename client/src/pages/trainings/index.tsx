@@ -1,43 +1,50 @@
-import RunningIcon from "@/components/icons/running";
-import UserLayout from "@/components/user-layout";
-import { Training } from "@common/Training";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { TrashIcon } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import React, { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth";
+import { useNavigate } from "react-router-dom";
+import { Training, Lap } from "@common/Training";
+import UserLayout from "@/components/user-layout";
+import { TrashIcon, Pencil } from "lucide-react";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-const TrainingsPage = () => {
-  const {user}= useAuth();
+interface TrainingCardProps {
+  training: Training;
+  user: {
+    name: string;
+    avatar: string;
+  };
+}
+
+const averagePace = (laps: Lap[]) =>
+  (laps.reduce((acc, lap) => acc + parseFloat(lap.pace.split("/")[0]), 0) /
+    laps.length
+  ).toFixed(2);
+
+
+const totalTime = (laps: Lap[]) => laps
+  .map((lap) => lap.time.split(":").reduce((acc, time) => 60 * acc + +time, 0))
+  .reduce((acc, seconds) => acc + seconds, 0);
+
+const formattedTime = (totalTime: number) => `${Math.floor(totalTime / 3600)}h ${Math.floor(
+  (totalTime % 3600) / 60
+)}m`;
+
+
+const TrainingCard: React.FC<TrainingCardProps> = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedTrainingId, setSelectedTrainingId] = useState<string | null>(
     null,
   );
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchTrainings = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/trainings/user/${user._id}`,
-        );
-        const data = await response.json();
-        setTrainings(data);
-      } catch (error) {
-        console.error("Error fetching trainings:", error);
-      }
-    };
-
-    fetchTrainings();
-  }, [user]);
+  const confirmDeleteTraining = (id: string) => {
+    setSelectedTrainingId(id);
+    setShowDeleteModal(true);
+  };
 
   const handleAddTraining = () => {
     navigate("/trainings/new");
@@ -45,11 +52,6 @@ const TrainingsPage = () => {
 
   const handleEditTraining = (id: string) => {
     navigate(`/trainings/edit/${id}`);
-  };
-
-  const confirmDeleteTraining = (id: string) => {
-    setSelectedTrainingId(id);
-    setShowDeleteModal(true);
   };
 
   const handleDeleteTraining = async () => {
@@ -75,56 +77,100 @@ const TrainingsPage = () => {
     }
   };
 
+
+  useEffect(() => {
+    const fetchTrainings = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/trainings/user/${user._id}`,
+        );
+        const data = await response.json();
+        setTrainings(data);
+      } catch (error) {
+        console.error("Error fetching trainings:", error);
+      }
+    };
+
+    fetchTrainings();
+  }, [user]);
+
+
+
   return (
-    <UserLayout title="Trainings">
+    <UserLayout title="trainigs">
       <button
         className="bg-black text-white px-4 py-2 rounded"
         onClick={handleAddTraining}
       >
         + Add Training
       </button>
-      <div className="mt-4">
-        {trainings.length === 0 ? (
-          <p>No trainings available.</p>
-        ) : (
-          <ul>
-            {trainings.map((training: Training, index: number) => (
-              <li key={index} className="mb-4">
-                <div className="text-md flex flex-row justify-between space-x-2 bg-stone-100 p-2 rounded-t-md text-bold">
-                  <p>{training.title}</p>
-                  <p>{new Date(training.date).toISOString().split("T")[0]}</p>
-                </div>
+      {trainings?.map((training) => (
+        <Card className="max-w-lg mx-auto m-4 shadow justify-self-center">
+          {/* Header Section */}
+          <CardHeader className="flex items-center space-x-4">
+            <h2 className="text-xl font-semibold flex items-center space-x-2">
+              <span role="img" aria-label="running">
+                🏃
+              </span>
+              {training.title}
+            </h2>
+          </CardHeader>
 
-                <div className="bg-stone-100 p-2 flex justify-between items-center">
-                  <div
-                    onClick={() => handleEditTraining(training._id)}
-                    className="cursor-pointer w-full"
-                  >
-                    <div className="border-l-4 border-orange-600 my-4">
-                      <div className="flex flex-row items-center">
-                        <div className="min-h-[100px]  text-xl font-bold flex flex-row items-center space-x-2 border-r-2 border-stone-200 p-2">
-                          <RunningIcon className="w-16 h-16" />
-                          <p>{training.totalDistance} km</p>
-                        </div>
-                        <div className="text-md items-center min-h-[80px] flex items-center p-2">
-                          <p>{training.notes}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Delete Button */}
-                  <button
-                    onClick={() => confirmDeleteTraining(training._id)}
-                    className="ml-4 p-2 rounded-full bg-red-100 hover:bg-red-200"
-                  >
-                    <TrashIcon className="h-6 w-6 text-red-600" />
-                  </button>
+          <Separator />
+
+          {/* Content Section */}
+          <CardContent>
+            <div className="mt-4">
+              {/* Metrics */}
+              <div className="grid grid-cols-3 text-center">
+                <div>
+                  <p className="text-lg font-bold">{training.totalDistance.toFixed(2)} km</p>
+                  <p className="text-sm text-muted-foreground">Distance</p>
                 </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+                <div>
+                  <p className="text-lg font-bold">{averagePace(training.laps)} /km</p>
+                  <p className="text-sm text-muted-foreground">Avg Pace</p>
+                </div>
+                <div>
+                  <p className="text-lg font-bold">{formattedTime(totalTime(training.laps))}</p>
+                  <p className="text-sm text-muted-foreground">Total Time</p>
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div className="mt-2 bg-indigo-100 text-indigo-600 p-3 rounded-md">
+                {training.notes || "No additional notes provided."}
+              </div>
+
+              {/* Laps */}
+              <div className="mt-2">
+                <div className="p-2">
+                  <h3 className="text-md font-bold">Laps</h3>
+                  <ul className="list-disc list-inside text-sm">
+                    {training.laps.map((lap, index) => (
+                      <li key={index}>
+                        {lap.distance} km - {lap.time} - {lap.pace}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex space-x-2 justify-end mt-2">
+                <Button variant="outline" size="icon" onClick={() =>
+                  handleEditTraining(training._id)
+                }>
+                  <Pencil className="h-6 w-6 text-green-600" />
+                </Button>
+                <Button variant="outline" size="icon"
+                  onClick={() => confirmDeleteTraining(training._id)}>
+                  <TrashIcon className="h-6 w-6 text-red-600" />
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
 
       {/* Delete Confirmation Modal */}
       <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
@@ -146,8 +192,9 @@ const TrainingsPage = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
     </UserLayout>
-  );
+  )
 };
 
-export default TrainingsPage;
+export default TrainingCard;

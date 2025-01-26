@@ -15,7 +15,7 @@ export default function UserLayout({ title, subtitle, children }: Props) {
     <div className="flex flex-row max-h-dvh h-dvh">
       <VerticalNavbar isLoading={loading} />
       {user && (
-        <main className="flex flex-col w-full">
+        <main className="flex flex-col w-full bg-stone-50">
           <header className="">
             <div className="flex flex-row items-center space-x-2 p-4 bg-indigo-700 text-white">
               <RocketIcon />

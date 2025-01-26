@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import WorkoutCard from "./workout-card";
 
 interface Workout {
@@ -51,43 +50,41 @@ export default function TrainingPlan({ weeks }: TrainingPlanProps) {
       </div>
 
       {/* Desktop view */}
-      <div className="hidden md:block overflow-x-auto space-y-8">
+      <div className="hidden md:block overflow-x-auto mt-4 space-y-8">
         {chunkedWeeks.map((weekChunk, index) => (
           <div key={index} className="mt-4">
-            <Table>
-
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="p-2 border bg-indigo-100">Day</TableHead>
+            <table className="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className="p-2 border"></th>
                   {weekChunk.map((week) => (
-                    <TableHead key={week.week} className="p-2 border bg-indigo-100">
+                    <th key={week.week} className="p-2 border">
                       Week {week.week}
-                    </TableHead>
+                    </th>
                   ))}
-                </TableRow>
-              </TableHeader>
-
-              <TableBody>
+                </tr>
+              </thead>
+              <tbody>
                 {daysOfWeek.map((day) => (
-                  <TableRow key={day}>
-                    <TableCell className="p-2 border font-medium bg-indigo-100">{day}</TableCell>
+                  <tr key={day}>
+                    <td className="p-2 border font-medium">{day}</td>
                     {weekChunk.map((week) => {
                       const workout = week.workouts.find((w) => w.day === day);
                       const maxWidth = weekChunk.length === 4 ? "w-1/4" : `w-1/${weekChunk.length}`;
                       return (
-                        <TableCell key={`${week.week}-${day}`} className={`p-2 border ${maxWidth}`}>
+                        <td key={`${week.week}-${day}`} className={`p-2 border ${maxWidth}`}>
                           {workout ? (
                             <WorkoutCard {...workout} />
                           ) : (
                             <div className="text-sm text-muted-foreground">Rest day</div>
                           )}
-                        </TableCell>
+                        </td>
                       );
                     })}
-                  </TableRow>
+                  </tr>
                 ))}
-              </TableBody>
-            </Table>
+              </tbody>
+            </table>
           </div>
         ))}
       </div>
@@ -122,3 +119,5 @@ export default function TrainingPlan({ weeks }: TrainingPlanProps) {
     </div>
   );
 }
+
+
