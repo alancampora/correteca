@@ -53,3 +53,15 @@ console.log("pincha mal");
   }
 
 }
+
+export const deleteTraining = async (req:any, res:any) => {
+  try {
+    const training = await Training.findByIdAndDelete(req.params.id);
+    if (!training) {
+      return res.status(404).send();
+    }
+    res.status(200).send(training);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+}

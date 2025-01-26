@@ -15,18 +15,29 @@ export const generateAIPlan = async (req: Request, res: Response) => {
     const prompt = `
         You are an expert running coach. Based on the following user details, create a detailed and structured running training plan:
 
+        **User Details:**
         Goal: ${goal}
         Frequency: ${frequency} days per week
         Intensity: ${intensity}
-        Timeframe: ${timeframe} (e.g., "1 month" or "no time restrictions")
+        Timeframe: ${timeframe} (e.g., "1 month", "3 months", or "no time restrictions")
 
-        Ensure the plan:
-        1. If a timeframe is specified (${timeframe}), adjust the plan to fit within the given duration, progressively building endurance, speed, and strength each week to achieve the stated goal (${goal}).
-        2. If no timeframe is specified, create a flexible and progressive plan that spans multiple weeks or months, gradually increasing intensity and volume without overtraining.
-        3. Maximize the training days (${frequency} days per week) by including a mix of easy runs, intervals, tempo runs, long runs, and rest days for recovery.
-        4. Provide clear and specific notes for each session, such as pace guidelines (e.g., conversational pace, race pace), recovery advice, and hydration tips.
+        **Instructions:**
 
-        Output the training plan in JSON format only, without any code block delimiters or extra text:
+          1. Adjust the training plan to  strictly match the specified timeframe (\${timeframe}). Ensure the plan spans the exact duration if a timeframe is provided, progressively building endurance, speed, and strength each week to achieve the user's goal (\${goal}).
+          2. If no timeframe is specified, design a flexible, open-ended plan that gradually increases intensity and volume over multiple weeks or months, avoiding overtraining.
+          3. Adapt the number of weekly training days to match the user's specified frequency (\${frequency} days per week). Distribute workouts appropriately to balance training and recovery.
+          4. Include a variety of workouts (e.g., easy runs, intervals, tempo runs, long runs) tailored to the user's intensity level (\${intensity}), while incorporating rest days for recovery.
+          5. Provide detailed notes for each session, including:
+             - **Pace guidelines** (e.g., conversational pace, race pace).
+             - **Recovery advice** (e.g., rest between intervals, active recovery tips).
+             - **Hydration/nutrition tips** as appropriate.
+
+        **Output:** 
+        Generate the training plan in JSON format only, without extra text or code block delimiters. Ensure the plan:
+        - Fully aligns with the user's specified timeframe (\${timeframe}) if provided.
+        - Dynamically adjusts the number of workouts to match the user's specified frequency (\${frequency}).
+
+        **Example JSON Output:**
         {
           "recommendation": "Based on your input, this is your personalized training plan designed to achieve your goal.",
           "weeks": [
