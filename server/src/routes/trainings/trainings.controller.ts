@@ -18,7 +18,7 @@ export const createTraining = async (req, res) => {
   }
 }
 
-export const getAllTrainings = async (req:any, res:any) => {
+export const getAllTrainings = async (req: any, res: any) => {
   try {
     const trainings = await Training.find({});
     res.status(200).send(trainings);
@@ -27,7 +27,7 @@ export const getAllTrainings = async (req:any, res:any) => {
   }
 }
 
-export const getTraining = async (req:any, res:any) => {
+export const getTraining = async (req: any, res: any) => {
   try {
     const training = await Training.findById(req.params.id);
     if (!training) {
@@ -39,22 +39,22 @@ export const getTraining = async (req:any, res:any) => {
   }
 }
 
-export const getTrainingsByUser = async (req:any, res:any) => {
+export const getTrainingsByUser = async (req: any, res: any) => {
   try {
     const userId = req.params.id;
-    const trainings = await Training.find({userId});
+    const trainings = await Training.find({ userId });
     if (!trainings) {
       return res.status(404).send();
     }
     res.status(200).send(trainings);
   } catch (error) {
-console.log("pincha mal");
+    console.log("pincha mal");
     res.status(500).send(error);
   }
 
 }
 
-export const deleteTraining = async (req:any, res:any) => {
+export const deleteTraining = async (req: any, res: any) => {
   try {
     const training = await Training.findByIdAndDelete(req.params.id);
     if (!training) {
@@ -65,3 +65,21 @@ export const deleteTraining = async (req:any, res:any) => {
     res.status(500).send(error);
   }
 }
+
+// Update a training by ID
+export const updateTraining = async (req: any, res: any) => {
+  try {
+    const training = await Training.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!training) {
+      return res.status(404).send();
+    }
+    res.status(200).send(training);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+

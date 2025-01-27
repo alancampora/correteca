@@ -13,6 +13,7 @@ interface ITraining extends Document {
   laps: ILap[];
   date: Date;
   notes: string;
+  workoutCategory: string;
   location?: string; // New property
 }
 
@@ -29,6 +30,7 @@ const TrainingSchema: Schema = new Schema({
   laps: { type: [LapSchema], required: true },
   date: { type: Date, required: true },
   notes: { type: String, required: false },
+  workoutCategory: { type: String, required: false },
   location: { type: String, required: false }, // New property
 });
 

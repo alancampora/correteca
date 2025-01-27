@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Lap {
   distance: number;
@@ -17,12 +18,14 @@ interface TrainingFormProps {
     laps: Lap[];
     notes: string;
     location?: string; // New property
+    workoutCategory?: string;
   };
   onSubmit: (data: {
     title: string;
     date: string;
     laps: Lap[];
     notes: string;
+    workoutCategory?: string;
     location?: string; // New property
   }) => void;
   submitLabel: string;
@@ -40,6 +43,9 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     : "";
 
   const [date, setDate] = useState(formattedDate);
+  const [workoutCategory, setWorkoutCategory] = useState(
+    initialData?.workoutCategory || "Morning Run"
+  ); // Default to "Long Run"
   const [laps, setLaps] = useState<Lap[]>(initialData?.laps || []);
   const [lapDistance, setLapDistance] = useState("");
   const [lapTime, setLapTime] = useState("");
@@ -106,7 +112,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
       return;
     }
 
-    onSubmit({ title, date, laps, notes, location });
+    onSubmit({ title, date, laps, notes, location, workoutCategory });
   };
 
   return (
@@ -162,6 +168,23 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
               onChange={(e) => setLocation(e.target.value)}
               placeholder="Location"
             />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="workoutCategory" className="block text-sm font-medium text-gray-700">
+            Workout Type
+            </label>
+            <Select value={workoutCategory} onValueChange={(value) => setWorkoutCategory(value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select Running Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Long Run">Long Run</SelectItem>
+                <SelectItem value="Morning Run">Morning Run</SelectItem>
+                <SelectItem value="Hill Repeats">Hill Repeats</SelectItem>
+                <SelectItem value="Intervals">Intervals</SelectItem>
+                <SelectItem value="Recovery Run">Recovery Run</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div>
             <label
